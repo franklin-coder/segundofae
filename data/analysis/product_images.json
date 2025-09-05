@@ -1,0 +1,38 @@
+{
+  "product_images": {
+    "hero_images": [
+      "https://plumeriajewels.com/wp-content/uploads/2025/02/IMG_5545.jpg"
+    ],
+    "product_gallery": [
+      "https://plumeriajewels.com/wp-content/uploads/2024/02/IMG_8187.jpg",
+      "https://plumeriajewels.com/wp-content/uploads/2025/06/IMG_7449.jpg",
+      "https://plumeriajewels.com/wp-content/uploads/2025/06/IMG_7473.jpeg",
+      "https://plumeriajewels.com/wp-content/uploads/2025/06/IMG_7978.jpg",
+      "https://plumeriajewels.com/wp-content/uploads/2025/06/IMG_8096.jpeg",
+      "https://plumeriajewels.com/wp-content/uploads/2025/06/1.jpeg",
+      "https://plumeriajewels.com/wp-content/uploads/2025/06/2.jpeg",
+      "https://plumeriajewels.com/wp-content/uploads/2025/06/3.jpeg"
+    ],
+    "brand_assets": [
+      "https://plumeriajewels.com/wp-content/uploads/2024/02/τερακοτα-χωρις.png",
+      "https://plumeriajewels.com/wp-content/uploads/2024/02/ασπρο.png",
+      "https://plumeriajewels.com/wp-content/uploads/2024/02/cropped-favicon.png",
+      "https://plumeriajewels.com/wp-content/uploads/2024/03/plumeria-fav-icon.jpeg"
+    ],
+    "banners": [
+      "https://plumeriajewels.com/wp-content/uploads/2022/10/Horizontal_Banner_transparent.png"
+    ],
+    "recommended_aspect_ratios": {
+      "product_main": "1:1",
+      "product_gallery": "4:3",
+      "hero_banner": "16:9",
+      "logo": "4:3"
+    },
+    "image_specifications": {
+      "format": "jpg, jpeg, png",
+      "quality": "high_resolution",
+      "loading": "lazy_loading_implemented",
+      "optimization": "responsive_images_with_srcset"
+    }
+  }
+}

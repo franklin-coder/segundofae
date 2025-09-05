@@ -1,0 +1,16 @@
+{
+  "products": [
+    {"name": "KOHILI NECKLACE", "price": "22.00€", "category": "necklaces", "status": "available"},
+    {"name": "AMMOS NECKLACE", "price": "28.00€", "category": "necklaces", "status": "sold_out"},
+    {"name": "THALASSA NECKLACE", "price": "26.00€", "category": "necklaces", "status": "available"},
+    {"name": "SHELLY STARFISH", "price": "25.00€", "category": "necklaces", "status": "available"},
+    {"name": "FUNKY FISH", "price": "18.00€", "category": "necklaces", "status": "available"},
+    {"name": "SILVER COAST", "price": "20.00€", "category": "necklaces", "status": "available"},
+    {"name": "CARRIBEAN SHELL", "price": "18.00€", "category": "necklaces", "status": "available"},
+    {"name": "MALIBU NECKLACE", "price": "20.00€", "category": "necklaces", "status": "available"},
+    {"name": "AVRA ANKLET", "price": "25.00€", "category": "anklets", "status": "available"},
+    {"name": "STRAWBERRY ANKLET", "price": "20.00€", "category": "anklets", "status": "available"},
+    {"name": "LEMON ANKLET", "price": "15.00€", "category": "anklets", "status": "available"},
+    {"name": "ELEPHANT ANKLET", "price": "20.00€", "category": "anklets", "status": "available"}
+  ]
+}

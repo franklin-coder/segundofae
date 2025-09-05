@@ -1,0 +1,36 @@
+node_modules
+# === Dependencies ===
+node_modules/
+
+# === Next.js build ===
+.next/
+out/
+build/
+dist/
+
+# === Env files ===
+.env
+.env*.local
+
+# === Logs ===
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs
+*.log
+
+# === System files ===
+.DS_Store
+Thumbs.db
+
+# === IDEs ===
+.vscode/
+.idea/
+
+# === Prisma local DB (solo si generas uno para pruebas) ===
+prisma/*.db
+
+# === Uploads (mantener public/, ignorar solo subidas locales) ===
+uploads/
+public/uploads/

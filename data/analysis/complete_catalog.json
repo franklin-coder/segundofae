@@ -1,0 +1,231 @@
+{
+  "catalog_metadata": {
+    "site_name": "Plumeriajewels.com",
+    "description": "Χειροποίητα μακραμέ κοσμήματα που αποπνέουν μοναδικότητα και κομψότητα",
+    "specialty": "Handmade macrame jewelry",
+    "origin": "Made in Greece",
+    "currency": "EUR",
+    "price_range": {
+      "min": 15.00,
+      "max": 28.00
+    },
+    "last_analyzed": "2025-08-17",
+    "total_products_identified": 12
+  },
+  "product_categories": {
+    "necklaces": {
+      "name": "Necklaces",
+      "greek_name": "Κολιέ",
+      "subcategories": ["All Necklaces", "Beaded", "Choker", "Macrame"],
+      "description": "Handmade macrame and beaded necklaces with summer-inspired themes"
+    },
+    "earrings": {
+      "name": "Earrings", 
+      "greek_name": "Σκουλαρίκια",
+      "subcategories": ["All Earrings", "Macrame"],
+      "description": "Statement and bohemian earrings in macrame style"
+    },
+    "bracelets": {
+      "name": "Bracelets",
+      "greek_name": "Βραχιόλια", 
+      "subcategories": ["All Bracelets", "Macrame", "Beaded"],
+      "description": "Handcrafted bracelets with intricate macrame work"
+    },
+    "anklets": {
+      "name": "Anklets",
+      "greek_name": "Ποδοσφαίρια",
+      "subcategories": [],
+      "description": "Summer anklets with playful and colorful designs"
+    }
+  },
+  "products": [
+    {
+      "id": "kohili-necklace",
+      "name": "KOHILI NECKLACE",
+      "price": 22.00,
+      "currency": "EUR",
+      "category": "necklaces",
+      "subcategory": "beaded",
+      "status": "available",
+      "description": "Handmade beaded necklace with Greek-inspired design",
+      "tags": ["handmade", "beaded", "summer", "greek", "new"],
+      "add_to_cart_id": null
+    },
+    {
+      "id": "ammos-necklace", 
+      "name": "AMMOS NECKLACE",
+      "price": 28.00,
+      "currency": "EUR",
+      "category": "necklaces",
+      "subcategory": "beaded",
+      "status": "sold_out",
+      "description": "Sand-inspired necklace with natural earth tones",
+      "tags": ["handmade", "beaded", "sand", "earth-tones", "sold-out"],
+      "add_to_cart_id": null
+    },
+    {
+      "id": "thalassa-necklace",
+      "name": "THALASSA NECKLACE", 
+      "price": 26.00,
+      "currency": "EUR",
+      "category": "necklaces",
+      "subcategory": "beaded",
+      "status": "available",
+      "description": "Sea-inspired necklace with oceanic blue tones",
+      "tags": ["handmade", "beaded", "sea", "blue", "ocean"],
+      "add_to_cart_id": null
+    },
+    {
+      "id": "shelly-starfish",
+      "name": "SHELLY STARFISH",
+      "price": 25.00,
+      "currency": "EUR", 
+      "category": "necklaces",
+      "subcategory": "beaded",
+      "status": "available",
+      "description": "Shell and starfish themed necklace for beach lovers",
+      "tags": ["handmade", "shell", "starfish", "beach", "marine"],
+      "add_to_cart_id": null
+    },
+    {
+      "id": "funky-fish",
+      "name": "FUNKY FISH",
+      "price": 18.00,
+      "currency": "EUR",
+      "category": "necklaces", 
+      "subcategory": "beaded",
+      "status": "available",
+      "description": "Playful fish-themed necklace with vibrant colors",
+      "tags": ["handmade", "fish", "colorful", "playful", "fun"],
+      "add_to_cart_id": null
+    },
+    {
+      "id": "silver-coast",
+      "name": "SILVER COAST",
+      "price": 20.00,
+      "currency": "EUR",
+      "category": "necklaces",
+      "subcategory": "beaded", 
+      "status": "available",
+      "description": "Elegant silver-toned coastal inspired necklace",
+      "tags": ["handmade", "silver", "coast", "elegant", "metallic"],
+      "add_to_cart_id": null
+    },
+    {
+      "id": "carribean-shell",
+      "name": "CARRIBEAN SHELL",
+      "price": 18.00,
+      "currency": "EUR",
+      "category": "necklaces",
+      "subcategory": "beaded",
+      "status": "available", 
+      "description": "Caribbean-inspired shell necklace with tropical vibes",
+      "tags": ["handmade", "shell", "caribbean", "tropical", "vacation"],
+      "add_to_cart_id": null
+    },
+    {
+      "id": "malibu-necklace",
+      "name": "MALIBU NECKLACE",
+      "price": 20.00,
+      "currency": "EUR",
+      "category": "necklaces",
+      "subcategory": "beaded",
+      "status": "available",
+      "description": "California beach-inspired necklace with sunset colors",
+      "tags": ["handmade", "malibu", "beach", "sunset", "california"],
+      "add_to_cart_id": null
+    },
+    {
+      "id": "avra-anklet",
+      "name": "AVRA ANKLET", 
+      "price": 25.00,
+      "currency": "EUR",
+      "category": "anklets",
+      "subcategory": "",
+      "status": "available",
+      "description": "Delicate anklet with Greek-inspired design elements",
+      "tags": ["handmade", "anklet", "greek", "delicate", "summer"],
+      "add_to_cart_id": null
+    },
+    {
+      "id": "strawberry-anklet",
+      "name": "STRAWBERRY ANKLET",
+      "price": 20.00,
+      "currency": "EUR",
+      "category": "anklets", 
+      "subcategory": "",
+      "status": "available",
+      "description": "Sweet strawberry-themed anklet in red tones",
+      "tags": ["handmade", "anklet", "strawberry", "red", "fruit", "sweet"],
+      "add_to_cart_id": null
+    },
+    {
+      "id": "lemon-anklet", 
+      "name": "LEMON ANKLET",
+      "price": 15.00,
+      "currency": "EUR",
+      "category": "anklets",
+      "subcategory": "",
+      "status": "available",
+      "description": "Bright lemon-yellow anklet for summer vibes",
+      "tags": ["handmade", "anklet", "lemon", "yellow", "citrus", "bright"],
+      "add_to_cart_id": null
+    },
+    {
+      "id": "elephant-anklet",
+      "name": "ELEPHANT ANKLET",
+      "price": 20.00,
+      "currency": "EUR",
+      "category": "anklets",
+      "subcategory": "",
+      "status": "available", 
+      "description": "Charming elephant-themed anklet for good luck",
+      "tags": ["handmade", "anklet", "elephant", "luck", "animal", "charm"],
+      "add_to_cart_id": null
+    }
+  ],
+  "additional_products_found": [
+    {
+      "name": "Greek Goddess earrings",
+      "category": "earrings",
+      "tags": ["greek", "goddess", "statement", "mythology"]
+    },
+    {
+      "name": "bohemian earrings", 
+      "category": "earrings",
+      "tags": ["bohemian", "boho", "style"]
+    },
+    {
+      "name": "statement earrings",
+      "category": "earrings", 
+      "tags": ["statement", "bold", "dramatic"]
+    },
+    {
+      "name": "macrame earrings",
+      "category": "earrings",
+      "tags": ["macrame", "handwoven", "textile"]
+    },
+    {
+      "name": "heart necklace",
+      "category": "necklaces",
+      "tags": ["heart", "romantic", "love"]
+    }
+  ],
+  "shopping_features": {
+    "cart_system": "WooCommerce", 
+    "wishlist": "Available (/λίστα-επιθυμιών)",
+    "user_accounts": "Full account management (/my-account/)",
+    "payment_methods": "Multiple options via WooCommerce",
+    "shipping": "Domestic and international",
+    "currencies": ["EUR"],
+    "languages": ["Greek (primary)", "English"]
+  },
+  "theme_and_style": {
+    "aesthetic": "Bohemian, beach-inspired, summery",
+    "color_palette": ["Terracotta", "White", "Ocean blues", "Sunset colors"],
+    "naming_convention": "Greek/Mediterranean place names and nature themes",
+    "target_audience": "Beach lovers, bohemian style enthusiasts, Greek culture admirers",
+    "seasonal_focus": "Summer collections (SS25 mentioned)",
+    "brand_personality": "Handmade, artistic, culturally-rooted, vacation-inspired"
+  }
+}
