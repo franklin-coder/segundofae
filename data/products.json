@@ -228,5 +228,41 @@
     "care_instructions": "Hand wash if needed. Air dry completely.",
     "created_at": "2024-01-23T11:00:00Z",
     "updated_at": "2024-01-23T11:00:00Z"
+  },
+  {
+    "id": "necklaces-027709",
+    "name": "ggggggggggggggg",
+    "price": 50,
+    "description": "ggggggggggggggggg",
+    "longDescription": "ggggggggggggggggggggggg",
+    "category": "necklaces",
+    "images": [],
+    "featured": false,
+    "inStock": true,
+    "materials": [
+      "moregggggggg"
+    ],
+    "dimensions": "moregggggg",
+    "care_instructions": "gggggggggggg",
+    "created_at": "2025-09-05T05:27:07.709Z",
+    "updated_at": "2025-09-05T05:27:07.709Z"
+  },
+  {
+    "id": "and-more-629891",
+    "name": "ttttttttttt",
+    "price": 200,
+    "description": "tttttttttttttttttttttttt",
+    "longDescription": "ttttttttttttttttttttttttttttttttt",
+    "category": "and-more",
+    "images": [],
+    "featured": false,
+    "inStock": true,
+    "materials": [
+      "taaaaaaaaaaaaaaaaaaaa"
+    ],
+    "dimensions": "taaaaaaaaaaaaa",
+    "care_instructions": "taaaaaaaaaaaaaaaaa",
+    "created_at": "2025-09-05T05:53:49.891Z",
+    "updated_at": "2025-09-05T05:53:49.891Z"
   }
 ]

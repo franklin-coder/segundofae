@@ -9,19 +9,19 @@ datasource db {
 }
 
 model Product {
-  id                String   @id @default(cuid())  // ID automático (o usa tu propio id manual)
-  sku               String?  // Para códigos como "necklace-001"
+  id                String   @id @default(cuid())
+  sku               String?
   name              String
   description       String
   longDescription   String?
   category          String
   price             Float
-  images            String[]   // Array de URLs (Postgres lo soporta)
-  featured          Boolean    @default(false)
-  inStock           Boolean    @default(true)
-  materials         String[]   // Array de materiales
+  images            String[]
+  featured          Boolean  @default(false)
+  inStock           Boolean  @default(true)
+  materials         String[]
   dimensions        String?
   care_instructions String?
-  created_at        DateTime   @default(now())
-  updated_at        DateTime   @updatedAt
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
 }
