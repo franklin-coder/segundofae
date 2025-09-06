@@ -1,62 +1,44 @@
-
-import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
-
-export const dynamic = "force-dynamic"
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   try {
-    const productData = await request.json()
+    const body = await request.json();
 
-    // Validar datos requeridos
-    if (!productData.name || !productData.price || !productData.description || !productData.category) {
-      return NextResponse.json({
-        success: false,
-        error: 'Missing required fields: name, price, description, and category are required'
-      }, { status: 400 })
+    if (!body.name || !body.price || !body.description || !body.category) {
+      return NextResponse.json(
+        { success: false, error: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
-    // Ruta al archivo de productos
-    const productsPath = path.join(process.cwd(), 'data', 'products.json')
-    
-    // Leer productos existentes
-    let products = []
-    try {
-      const fileContent = fs.readFileSync(productsPath, 'utf8')
-      products = JSON.parse(fileContent)
-    } catch (error) {
-      console.error('Error reading products file:', error)
-      // Si el archivo no existe o está corrupto, comenzamos con un array vacío
-      products = []
-    }
-
-    // Validar que el ID sea único
-    const existingProduct = products.find((p: any) => p.id === productData.id)
-    if (existingProduct) {
-      // Generar nuevo ID si ya existe
-      productData.id = `${productData.category}-${Date.now().toString()}`
-    }
-
-    // Agregar el nuevo producto
-    products.push(productData)
-
-    // Guardar de vuelta al archivo
-    fs.writeFileSync(productsPath, JSON.stringify(products, null, 2))
-
-    console.log('New product added:', productData.name)
+    const newProduct = await prisma.product.create({
+      data: {
+        sku: body.sku || `${body.category}-${Date.now()}`,
+        name: body.name,
+        description: body.description,
+        longDescription: body.longDescription,
+        category: body.category,
+        price: body.price,
+        images: body.images || [],
+        featured: body.featured ?? false,
+        inStock: body.inStock ?? true,
+        materials: body.materials || [],
+        dimensions: body.dimensions,
+        care_instructions: body.care_instructions,
+      },
+    });
 
     return NextResponse.json({
       success: true,
-      message: 'Product added successfully',
-      product: productData
-    })
-
-  } catch (error) {
-    console.error('Error adding product:', error)
-    return NextResponse.json({
-      success: false,
-      error: 'Failed to add product. Please try again.'
-    }, { status: 500 })
+      message: "Product added successfully",
+      product: newProduct,
+    });
+  } catch (error: any) {
+    console.error("Error adding product:", error);
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }

@@ -92,29 +92,6 @@
     "updated_at": "2024-01-18T10:00:00Z"
   },
   {
-    "id": "necklace-002",
-    "name": "SELENE Moon Phase Necklace",
-    "price": 32,
-    "description": "Celestial-inspired macramé necklace with moon charm",
-    "longDescription": "The SELENE necklace draws inspiration from lunar cycles and celestial beauty. This sophisticated piece features a handcrafted macramé pendant incorporating moon phase symbols, created with metallic threads that shimmer subtly in the light. A perfect piece for those drawn to celestial aesthetics and mystical symbolism.",
-    "category": "necklaces",
-    "images": [
-      "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=660895826409578",
-      "https://assets.bigcartel.com/product_images/91af4435-15d9-460f-8a0e-0692cd257a6d/selene-necklace.jpg?auto=format&fit=max&w=1000"
-    ],
-    "featured": true,
-    "inStock": true,
-    "materials": [
-      "Metallic cord",
-      "Moon charm",
-      "Crystal beads"
-    ],
-    "dimensions": "Length: 50cm (non-adjustable)",
-    "care_instructions": "Wipe clean with soft cloth. Avoid water and harsh chemicals.",
-    "created_at": "2024-01-19T10:00:00Z",
-    "updated_at": "2024-01-19T10:00:00Z"
-  },
-  {
     "id": "earrings-002",
     "name": "ZARA Geometric Hoop Earrings",
     "price": 25,
@@ -230,24 +207,6 @@
     "updated_at": "2024-01-23T11:00:00Z"
   },
   {
-    "id": "necklaces-027709",
-    "name": "ggggggggggggggg",
-    "price": 50,
-    "description": "ggggggggggggggggg",
-    "longDescription": "ggggggggggggggggggggggg",
-    "category": "necklaces",
-    "images": [],
-    "featured": false,
-    "inStock": true,
-    "materials": [
-      "moregggggggg"
-    ],
-    "dimensions": "moregggggg",
-    "care_instructions": "gggggggggggg",
-    "created_at": "2025-09-05T05:27:07.709Z",
-    "updated_at": "2025-09-05T05:27:07.709Z"
-  },
-  {
     "id": "and-more-629891",
     "name": "ttttttttttt",
     "price": 200,
@@ -264,5 +223,25 @@
     "care_instructions": "taaaaaaaaaaaaaaaaa",
     "created_at": "2025-09-05T05:53:49.891Z",
     "updated_at": "2025-09-05T05:53:49.891Z"
+  },
+  {
+    "id": "necklaces-611013",
+    "name": "dff",
+    "price": 125,
+    "description": "ppppppppppppppp",
+    "longDescription": "ppppppppppp",
+    "category": "necklaces",
+    "images": [
+      "https://a.1stdibscdn.com/diamond-gold-bracelet-for-sale/1121189/j_124883721623335043523/12488372_master.jpg"
+    ],
+    "featured": false,
+    "inStock": true,
+    "materials": [
+      "pppppp"
+    ],
+    "dimensions": "pppppp",
+    "care_instructions": "ppppppppp",
+    "created_at": "2025-09-06T05:30:11.013Z",
+    "updated_at": "2025-09-06T05:30:11.013Z"
   }
 ]
