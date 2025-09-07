@@ -1,13 +1,19 @@
-
+// app/products/[category]/[id]/page.tsx
 import { Suspense } from 'react'
+import { prisma } from '@/lib/prisma'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import fs from 'fs'
-import path from 'path'
 import ProductDetails from '@/components/products/product-details'
 import RelatedProducts from '@/components/products/related-products'
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
-import { Product } from '@/lib/types'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator
+} from '@/components/ui/breadcrumb'
+import { Product as PrismaProduct } from '@prisma/client'
 
 interface ProductPageProps {
   params: {
@@ -16,24 +22,24 @@ interface ProductPageProps {
   }
 }
 
+// ✅ Función actualizada para usar Prisma
 async function getProduct(id: string) {
   try {
-    // Read products directly from JSON file instead of API call
-    const filePath = path.join(process.cwd(), 'data', 'products.json')
-    const fileContents = fs.readFileSync(filePath, 'utf8')
-    const products: Product[] = JSON.parse(fileContents) || []
-
-    // Find product by ID
-    const product = products.find(p => p?.id === id)
+    const product = await prisma.product.findUnique({
+      where: { id }
+    })
 
     if (!product) {
       return null
     }
 
-    // Get related products (same category, excluding current product)
-    const relatedProducts = products
-      .filter(p => p?.category === product.category && p?.id !== product.id)
-      .slice(0, 4) || []
+    const relatedProducts = await prisma.product.findMany({
+      where: {
+        category: product.category,
+        id: { not: product.id }
+      },
+      take: 4
+    })
 
     return {
       success: true,
@@ -49,7 +55,7 @@ async function getProduct(id: string) {
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { id } = params
   const productData = await getProduct(id)
-  
+
   if (!productData?.product) {
     return {
       title: 'Product Not Found - FaeLight Crafts'
@@ -72,7 +78,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 export default async function ProductPage({ params }: ProductPageProps) {
   const { category, id } = params
   const productData = await getProduct(id)
-  
+
   if (!productData?.product) {
     notFound()
   }
@@ -100,7 +106,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>{product?.name}</BreadcrumbPage>
+              <BreadcrumbPage>{product.name}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -117,7 +123,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
           </div>
         }>
-          <ProductDetails product={product} />
+          <ProductDetails product={product as any} />
         </Suspense>
 
         {/* Related Products */}
@@ -132,7 +138,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </div>
             </div>
           }>
-            <RelatedProducts products={relatedProducts} />
+            <RelatedProducts products={relatedProducts as any} />
           </Suspense>
         )}
       </div>

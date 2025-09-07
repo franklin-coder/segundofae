@@ -1,0 +1,268 @@
+[
+  {
+    "id": "necklace-001",
+    "name": "THALASSA Bohemian Macramé Necklace",
+    "price": 28,
+    "description": "Handcrafted macramé necklace with bohemian design, perfect for summer styling",
+    "longDescription": "The THALASSA necklace embodies the free-spirited essence of bohemian style. Each piece is meticulously handcrafted using traditional macramé techniques, creating unique patterns that flow like ocean waves. This statement piece features natural cord materials and brings an earthy, artistic touch to any outfit.",
+    "category": "necklaces",
+    "images": [
+      "https://i.ytimg.com/vi/gur1Oga_Cao/sddefault.jpg",
+      "https://i.ytimg.com/vi/UKf9b37KKaw/maxresdefault.jpg"
+    ],
+    "featured": true,
+    "inStock": true,
+    "materials": [
+      "Cotton cord",
+      "Natural fibers",
+      "Wooden beads"
+    ],
+    "dimensions": "Adjustable length: 45-55cm",
+    "care_instructions": "Hand wash gently with mild soap. Air dry away from direct sunlight.",
+    "created_at": "2024-01-15T10:00:00Z",
+    "updated_at": "2024-01-15T10:00:00Z"
+  },
+  {
+    "id": "earrings-001",
+    "name": "KOHILI Tassel Drop Earrings",
+    "price": 22,
+    "description": "Elegant tassel earrings with intricate macramé detailing",
+    "longDescription": "KOHILI earrings feature delicate tassel drops created through intricate macramé work. These lightweight yet striking earrings move beautifully and catch the light, making them perfect for both casual and formal occasions. Each pair is carefully crafted to ensure comfort and durability.",
+    "category": "earrings",
+    "images": [
+      "https://i.ytimg.com/vi/lHuqPEpm_7Y/sddefault.jpg",
+      "https://i.ytimg.com/vi/lHuqPEpm_7Y/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLB0ZFMD_KieOCDYu0qh47KbBqsztw"
+    ],
+    "featured": true,
+    "inStock": true,
+    "materials": [
+      "Cotton thread",
+      "Sterling silver hooks",
+      "Natural dyes"
+    ],
+    "dimensions": "Length: 7cm",
+    "care_instructions": "Keep dry. Store in a cool, dry place. Avoid contact with perfumes.",
+    "created_at": "2024-01-16T10:00:00Z",
+    "updated_at": "2024-01-16T10:00:00Z"
+  },
+  {
+    "id": "bracelet-001",
+    "name": "AVRA Friendship Bracelet Set",
+    "price": 18,
+    "description": "Set of 3 adjustable macramé friendship bracelets",
+    "longDescription": "The AVRA bracelet set celebrates friendship and connection. This set includes three complementary bracelets in varying patterns and colors, designed to be shared with friends or layered together. Each bracelet is adjustable and features traditional friendship bracelet knotting techniques with a modern macramé twist.",
+    "category": "bracelets",
+    "images": [
+      "https://i.ytimg.com/vi/c3utGBtmQGo/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBtivNzwz4zmoLQWMOYWX5Mrn_a3A",
+      "https://i.ytimg.com/vi/tTrgygwoNBY/mqdefault.jpg"
+    ],
+    "featured": false,
+    "inStock": true,
+    "materials": [
+      "Cotton cord",
+      "Waxed thread",
+      "Small metal charms"
+    ],
+    "dimensions": "Adjustable: 15-20cm each",
+    "care_instructions": "Water resistant but avoid prolonged exposure to moisture.",
+    "created_at": "2024-01-17T10:00:00Z",
+    "updated_at": "2024-01-17T10:00:00Z"
+  },
+  {
+    "id": "anklet-001",
+    "name": "NERIDA Beach Anklet",
+    "price": 15,
+    "description": "Delicate beaded anklet perfect for beach days",
+    "longDescription": "NERIDA captures the carefree spirit of beach days and summer adventures. This delicate anklet features carefully selected beads in ocean-inspired colors, connected with soft macramé cord. Lightweight and comfortable, it's designed to be worn all season long and develop a beautiful patina over time.",
+    "category": "and-more",
+    "images": [
+      "https://i.pinimg.com/736x/56/ab/1c/56ab1cdb38cd6dd5a249403c2431ee50.jpg",
+      "https://i.ytimg.com/vi/jJ7hXcBdPB0/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBUHhDf4VfkQUq73uTdra6qykwALQ"
+    ],
+    "featured": false,
+    "inStock": true,
+    "materials": [
+      "Natural beads",
+      "Cotton cord",
+      "Sea glass"
+    ],
+    "dimensions": "Adjustable: 22-26cm",
+    "care_instructions": "Rinse with fresh water after beach/pool use. Air dry completely.",
+    "created_at": "2024-01-18T10:00:00Z",
+    "updated_at": "2024-01-18T10:00:00Z"
+  },
+  {
+    "id": "necklace-002",
+    "name": "SELENE Moon Phase Necklace",
+    "price": 32,
+    "description": "Celestial-inspired macramé necklace with moon charm",
+    "longDescription": "The SELENE necklace draws inspiration from lunar cycles and celestial beauty. This sophisticated piece features a handcrafted macramé pendant incorporating moon phase symbols, created with metallic threads that shimmer subtly in the light. A perfect piece for those drawn to celestial aesthetics and mystical symbolism.",
+    "category": "necklaces",
+    "images": [
+      "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=660895826409578",
+      "https://assets.bigcartel.com/product_images/91af4435-15d9-460f-8a0e-0692cd257a6d/selene-necklace.jpg?auto=format&fit=max&w=1000"
+    ],
+    "featured": true,
+    "inStock": true,
+    "materials": [
+      "Metallic cord",
+      "Moon charm",
+      "Crystal beads"
+    ],
+    "dimensions": "Length: 50cm (non-adjustable)",
+    "care_instructions": "Wipe clean with soft cloth. Avoid water and harsh chemicals.",
+    "created_at": "2024-01-19T10:00:00Z",
+    "updated_at": "2024-01-19T10:00:00Z"
+  },
+  {
+    "id": "earrings-002",
+    "name": "ZARA Geometric Hoop Earrings",
+    "price": 25,
+    "description": "Modern geometric hoops with macramé detailing",
+    "longDescription": "ZARA earrings blend contemporary geometric design with traditional macramé craftsmanship. These statement hoops feature clean lines and intricate knotwork within a modern silhouette. The perfect accessory for those who appreciate both minimalist aesthetics and handcrafted artistry.",
+    "category": "earrings",
+    "images": [
+      "https://i.ytimg.com/vi/2febWi-Y0VQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLD8V4U760o9nMeKz0YDjxa0ndzEHg",
+      "https://i.pinimg.com/474x/8b/01/d3/8b01d382c48a328e95ef7ace0a34653c.jpg"
+    ],
+    "featured": false,
+    "inStock": true,
+    "materials": [
+      "Cotton cord",
+      "Gold-plated hoops",
+      "Natural dyes"
+    ],
+    "dimensions": "Diameter: 5cm",
+    "care_instructions": "Keep dry. Clean gold plating with jewelry cloth only.",
+    "created_at": "2024-01-20T10:00:00Z",
+    "updated_at": "2024-01-20T10:00:00Z"
+  },
+  {
+    "id": "bracelet-002",
+    "name": "ELENA Charm Bracelet",
+    "price": 24,
+    "description": "Adjustable macramé bracelet with hanging charms",
+    "longDescription": "The ELENA bracelet tells a story through carefully chosen charms suspended from a beautifully crafted macramé base. Each charm represents different aspects of nature and personal growth, making this piece both meaningful and stylish. The adjustable design ensures a perfect fit for any wrist.",
+    "category": "bracelets",
+    "images": [
+      "https://i.ytimg.com/vi/L_gNcBizyOo/sddefault.jpg",
+      "https://i.ytimg.com/vi/f6YWdeVEIZk/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCavaAdnvtV5Z_UHawBCygQP4-GxQ"
+    ],
+    "featured": true,
+    "inStock": true,
+    "materials": [
+      "Cotton cord",
+      "Mixed metal charms",
+      "Natural stones"
+    ],
+    "dimensions": "Adjustable: 16-22cm",
+    "care_instructions": "Avoid contact with lotions and perfumes. Store in dry place.",
+    "created_at": "2024-01-21T10:00:00Z",
+    "updated_at": "2024-01-21T10:00:00Z"
+  },
+  {
+    "id": "anklet-002",
+    "name": "IRIS Rainbow Anklet",
+    "price": 20,
+    "description": "Colorful beaded anklet with rainbow gradient",
+    "longDescription": "IRIS celebrates the beauty of color and light with its stunning rainbow gradient design. This playful anklet features carefully arranged beads in a spectrum of colors, creating a subtle rainbow effect. Handcrafted with attention to color harmony and comfortable wear, it's perfect for adding a pop of joy to any outfit.",
+    "category": "and-more",
+    "images": [
+      "https://m.media-amazon.com/images/I/71Hmd-IE2FL._UF894,1000_QL80_.jpg",
+      "https://m.media-amazon.com/images/I/71QSQxsfuKL._UY300_.jpg"
+    ],
+    "featured": false,
+    "inStock": true,
+    "materials": [
+      "Glass beads",
+      "Cotton cord",
+      "Natural dyes"
+    ],
+    "dimensions": "Adjustable: 20-25cm",
+    "care_instructions": "Rinse gently if needed. Avoid harsh chemicals.",
+    "created_at": "2024-01-22T10:00:00Z",
+    "updated_at": "2024-01-22T10:00:00Z"
+  },
+  {
+    "id": "keychain-001",
+    "name": "MAYA Bohemian Tassel Keychain",
+    "price": 12,
+    "description": "Handcrafted macramé keychain with soft tassels in natural tones",
+    "longDescription": "The MAYA keychain brings bohemian style to everyday essentials. Crafted with natural cotton cord in warm camel tones, this keychain features delicate tassel details that add movement and texture. Perfect for keys, bags, or as a thoughtful gift for someone special.",
+    "category": "and-more",
+    "images": [
+      "https://m.media-amazon.com/images/I/71vd+dX11HL._UF1000,1000_QL80_.jpg",
+      "https://m.media-amazon.com/images/I/71vd+dX11HL._UF1000,1000_QL80_.jpg"
+    ],
+    "featured": false,
+    "inStock": true,
+    "materials": [
+      "Natural cotton cord",
+      "Metal keyring",
+      "Tassel details"
+    ],
+    "dimensions": "Total length: 12cm (including tassel)",
+    "care_instructions": "Spot clean only. Keep dry to maintain shape.",
+    "created_at": "2024-01-23T10:00:00Z",
+    "updated_at": "2024-01-23T10:00:00Z"
+  },
+  {
+    "id": "keychain-002",
+    "name": "INDIRA Geometric Pattern Keychain",
+    "price": 14,
+    "description": "Modern geometric macramé keychain with clean lines and natural colors",
+    "longDescription": "INDIRA combines contemporary design with traditional macramé techniques. This keychain features precise geometric patterns in natural earth tones, creating a sophisticated yet handmade accessory that complements both casual and professional styles.",
+    "category": "and-more",
+    "images": [
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiacRqPzCR0LckFOTpu8L3y61Q58nOEsB0hSXR-mOYhfEmhiOvShDJ5ZuY6Gx6lHJgFzwj__WPMsuLvi4MjL6rKKG3SDBZI0o5AcjZ3EhvFxn82bL6f0JGVi5hmYayEA7zjbtsgDlyh41HzdgqgAxL2MXar8s5g_90TNKmRMYGaqPV0bsOa3KguiBYdS1k/s933/macrame%20pattern%20keychain%20easy.webp",
+      "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiacRqPzCR0LckFOTpu8L3y61Q58nOEsB0hSXR-mOYhfEmhiOvShDJ5ZuY6Gx6lHJgFzwj__WPMsuLvi4MjL6rKKG3SDBZI0o5AcjZ3EhvFxn82bL6f0JGVi5hmYayEA7zjbtsgDlyh41HzdgqgAxL2MXar8s5g_90TNKmRMYGaqPV0bsOa3KguiBYdS1k/s933/macrame%20pattern%20keychain%20easy.webp"
+    ],
+    "featured": false,
+    "inStock": true,
+    "materials": [
+      "Cotton cord",
+      "Natural dyes",
+      "Stainless steel keyring"
+    ],
+    "dimensions": "Length: 10cm",
+    "care_instructions": "Hand wash if needed. Air dry completely.",
+    "created_at": "2024-01-23T11:00:00Z",
+    "updated_at": "2024-01-23T11:00:00Z"
+  },
+  {
+    "id": "necklaces-027709",
+    "name": "ggggggggggggggg",
+    "price": 50,
+    "description": "ggggggggggggggggg",
+    "longDescription": "ggggggggggggggggggggggg",
+    "category": "necklaces",
+    "images": [],
+    "featured": false,
+    "inStock": true,
+    "materials": [
+      "moregggggggg"
+    ],
+    "dimensions": "moregggggg",
+    "care_instructions": "gggggggggggg",
+    "created_at": "2025-09-05T05:27:07.709Z",
+    "updated_at": "2025-09-05T05:27:07.709Z"
+  },
+  {
+    "id": "necklaces-912810",
+    "name": "frama",
+    "price": 125,
+    "description": "frama",
+    "longDescription": "frama",
+    "category": "necklaces",
+    "images": [],
+    "featured": false,
+    "inStock": true,
+    "materials": [
+      "frama"
+    ],
+    "dimensions": "frama",
+    "care_instructions": "frama",
+    "created_at": "2025-09-07T04:21:52.810Z",
+    "updated_at": "2025-09-07T04:21:52.810Z"
+  }
+]

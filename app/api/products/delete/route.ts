@@ -1,7 +1,6 @@
-
+// app/api/products/delete/route.ts
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
+import { prisma } from '@/lib/prisma'
 
 export const dynamic = "force-dynamic"
 
@@ -17,42 +16,12 @@ export async function DELETE(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Ruta al archivo de productos
-    const productsPath = path.join(process.cwd(), 'data', 'products.json')
-    
-    // Leer productos existentes
-    let products = []
-    try {
-      const fileContent = fs.readFileSync(productsPath, 'utf8')
-      products = JSON.parse(fileContent)
-    } catch (error) {
-      console.error('Error reading products file:', error)
-      return NextResponse.json({
-        success: false,
-        error: 'Failed to read products file'
-      }, { status: 500 })
-    }
+    // ✅ Usar Prisma para eliminar el producto
+    const deletedProduct = await prisma.product.delete({
+      where: { id: productId }
+    })
 
-    // Buscar el producto
-    const productIndex = products.findIndex((p: any) => p.id === productId)
-    
-    if (productIndex === -1) {
-      return NextResponse.json({
-        success: false,
-        error: 'Product not found'
-      }, { status: 404 })
-    }
-
-    // Obtener información del producto antes de eliminarlo
-    const deletedProduct = products[productIndex]
-
-    // Eliminar el producto del array
-    products.splice(productIndex, 1)
-
-    // Guardar de vuelta al archivo
-    fs.writeFileSync(productsPath, JSON.stringify(products, null, 2))
-
-    console.log('Product deleted:', deletedProduct.name, '(ID:', productId, ')')
+    console.log('Product deleted:', deletedProduct.name, '(ID:', deletedProduct.id, ')')
 
     return NextResponse.json({
       success: true,
@@ -62,9 +31,17 @@ export async function DELETE(request: NextRequest) {
         name: deletedProduct.name
       }
     })
-
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error deleting product:', error)
+
+    // ✅ Manejo de errores específicos de Prisma
+    if (error.code === 'P2025') {
+      return NextResponse.json({
+        success: false,
+        error: 'Product not found'
+      }, { status: 404 })
+    }
+
     return NextResponse.json({
       success: false,
       error: 'Failed to delete product. Please try again.'

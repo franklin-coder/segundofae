@@ -1,8 +1,7 @@
-
+// app/api/products/route.ts
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
-import { Product } from '@/lib/types'
+import { prisma } from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 
 export const dynamic = "force-dynamic"
 
@@ -12,34 +11,31 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get('category')
     const featured = searchParams.get('featured')
     const limit = searchParams.get('limit')
-    
-    // Read products from JSON file
-    const filePath = path.join(process.cwd(), 'data', 'products.json')
-    const fileContents = fs.readFileSync(filePath, 'utf8')
-    let products: Product[] = JSON.parse(fileContents) || []
 
-    // Filter by category if specified
+    // ✅ Construir el filtro dinámico para Prisma
+    const where: Prisma.ProductWhereInput = {}
+
     if (category && category !== 'all') {
-      products = products.filter(product => product?.category === category)
+      where.category = category
     }
 
-    // Filter by featured if specified
     if (featured === 'true') {
-      products = products.filter(product => product?.featured === true)
+      where.featured = true
     }
 
-    // Limit results if specified
-    if (limit) {
-      const limitNum = parseInt(limit, 10)
-      if (!isNaN(limitNum) && limitNum > 0) {
-        products = products.slice(0, limitNum)
-      }
-    }
+    // ✅ Construir opciones de consulta
+    const take = limit ? parseInt(limit, 10) : undefined
+
+    // ✅ Usar Prisma para obtener productos
+    const products = await prisma.product.findMany({
+      where,
+      take
+    })
 
     return NextResponse.json({
       success: true,
-      products: products || [],
-      total: products?.length || 0
+      products,
+      total: products.length
     })
   } catch (error) {
     console.error('Error fetching products:', error)
