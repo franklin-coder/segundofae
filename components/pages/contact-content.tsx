@@ -1,13 +1,13 @@
+// components/pages/contact-content.tsx
+"use client";
 
-"use client"
-
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { MapPin, Mail, Phone, Clock, MessageCircle, Send, CheckCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Mail, Phone, MessageCircle, Send, CheckCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 const ContactContent = () => {
   const [formData, setFormData] = useState({
@@ -15,9 +15,10 @@ const ContactContent = () => {
     email: '',
     subject: '',
     message: ''
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const contactInfo = [
     {
@@ -32,7 +33,7 @@ const ContactContent = () => {
       details: ["+1 (250) 889-9919"],
       note: "Mon-Fri, 9AM-5PM PST"
     }
-  ]
+  ];
 
   const faqs = [
     {
@@ -51,38 +52,44 @@ const ContactContent = () => {
       question: "Can I visit your studio in Victoria?",
       answer: "Absolutely! We love meeting customers in person. Please contact us to schedule an appointment, as we work by appointment only."
     }
-  ]
+  ];
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage(null);
 
     try {
-      const response = await fetch('/api/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-      })
+      });
 
-      if (response?.ok) {
-        setIsSubmitted(true)
-        setFormData({ name: '', email: '', subject: '', message: '' })
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        setIsSubmitted(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setErrorMessage(data?.error || 'Ocurrió un error al enviar. Intenta de nuevo.');
       }
-    } catch (error) {
-      console.error('Error submitting form:', error)
+    } catch (err) {
+      console.error('Network error:', err);
+      setErrorMessage('No se pudo conectar con el servidor. Revisa tu conexión.');
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="space-y-20">
@@ -166,6 +173,9 @@ const ContactContent = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {errorMessage && (
+                  <div className="text-red-600 text-sm mb-4">{errorMessage}</div>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="name">Name *</Label>
@@ -282,10 +292,8 @@ const ContactContent = () => {
           </div>
         </motion.div>
       </div>
-
-
     </div>
-  )
-}
+  );
+};
 
-export default ContactContent
+export default ContactContent;

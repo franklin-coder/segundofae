@@ -1,7 +1,7 @@
-
-import { Metadata } from 'next'
-import ContactContent from '@/components/pages/contact-content'
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
+// app/contact/page.tsx
+import { Metadata } from 'next';
+import ContactContent from '@/components/pages/contact-content';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 export const metadata: Metadata = {
   title: 'Contact Us - FaeLight Crafts | Get in Touch',
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: 'Contact FaeLight Crafts - Victoria, BC',
     description: 'Get in touch with our artisan jewelry team in Victoria, British Columbia.',
   }
-}
+};
 
 export default function ContactPage() {
   return (
@@ -32,5 +32,5 @@ export default function ContactPage() {
         <ContactContent />
       </div>
     </div>
-  )
+  );
 }
