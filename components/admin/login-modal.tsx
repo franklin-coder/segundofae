@@ -85,14 +85,14 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
               </button>
             </div>
 
-            {/* Demo Credentials Info */}
+            {/* Demo Credentials Info 
             <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-              <p className="text-sm text-blue-700 font-medium mb-1">Demo Credentials:</p>
+              <p className="text-sm text-blue-700 font-medium mb-1">Credentials:</p>
               <p className="text-xs text-blue-600">
-                Username: <span className="font-mono font-bold">admin</span><br />
-                Password: <span className="font-mono font-bold">faelight2024</span>
+              Username: <span className="font-mono font-bold">""admin""</span><br />
+                Password: <span className="font-mono font-bold">faelight2024</span> 
               </p>
-            </div>
+            </div>*/}
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
