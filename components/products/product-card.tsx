@@ -20,13 +20,14 @@ interface ProductCardProps {
 const ProductCard = ({ product, onProductDeleted }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false)
   const [imageLoading, setImageLoading] = useState(true)
+  const [imageError, setImageError] = useState(false)
   const { addItem } = useCart()
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     
-    if (product) {
+    if (product && product.inStock) {
       addItem({
         id: product.id,
         name: product.name,
@@ -49,7 +50,42 @@ const ProductCard = ({ product, onProductDeleted }: ProductCardProps) => {
     // TODO: Implement wishlist functionality
   }
 
-  if (!product) return null
+  // Validaciones de seguridad
+  if (!product || !product.id) {
+    console.warn('ProductCard: Invalid product data', product)
+    return null
+  }
+
+  // Generar URL segura para el enlace
+  const getProductUrl = () => {
+    try {
+      // Asegurar que tenemos datos válidos
+      const category = product.category || 'products'
+      const id = product.id
+      
+      if (!id) {
+        console.warn('ProductCard: Missing product ID', product)
+        return '/products'
+      }
+      
+      // Codificar el ID para manejar caracteres especiales
+      const encodedId = encodeURIComponent(id)
+      return `/products/${category}/${encodedId}`
+    } catch (error) {
+      console.error('ProductCard: Error generating URL', error, product)
+      return '/products'
+    }
+  }
+
+  const productUrl = getProductUrl()
+
+  // Imagen con fallback mejorado
+  const getImageSrc = () => {
+    if (imageError) {
+      return '/images/placeholder-product.jpg'
+    }
+    return product.images?.[0] || '/images/placeholder-product.jpg'
+  }
 
   return (
     <motion.div
@@ -58,7 +94,13 @@ const ProductCard = ({ product, onProductDeleted }: ProductCardProps) => {
       onMouseLeave={() => setIsHovered(false)}
       whileHover={{ y: -5 }}
     >
-      <Link href={`/products/${product.category}/${product.id}`}>
+      <Link href={productUrl} onClick={(e) => {
+        // Validación adicional antes de navegar
+        if (!product.id) {
+          e.preventDefault()
+          console.error('Cannot navigate: Invalid product ID')
+        }
+      }}>
         {/* Image Container */}
         <div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
           {imageLoading && (
@@ -66,7 +108,7 @@ const ProductCard = ({ product, onProductDeleted }: ProductCardProps) => {
           )}
           
           <Image
-            src={product.images?.[0] || '/images/placeholder-product.jpg'}
+            src={getImageSrc()}
             alt={product.name || 'Product image'}
             fill
             className={`object-cover transition-all duration-500 ${
@@ -74,7 +116,11 @@ const ProductCard = ({ product, onProductDeleted }: ProductCardProps) => {
             }`}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             onLoad={() => setImageLoading(false)}
-            onError={() => setImageLoading(false)}
+            onError={() => {
+              setImageLoading(false)
+              setImageError(true)
+            }}
+            priority={false}
           />
 
           {/* Overlay Actions */}
@@ -130,22 +176,22 @@ const ProductCard = ({ product, onProductDeleted }: ProductCardProps) => {
         <div className="p-4">
           <div className="mb-2">
             <h3 className="font-semibold text-lg text-gray-900 group-hover:text-[#0A8E81] transition-colors duration-300 line-clamp-2">
-              {product.name}
+              {product.name || 'Unnamed Product'}
             </h3>
             <p className="text-sm text-gray-600 capitalize">
-              {product.category}
+              {product.category || 'Uncategorized'}
             </p>
           </div>
 
           <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-            {product.description}
+            {product.description || 'No description available'}
           </p>
 
           {/* Price */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <span className="text-xl font-bold text-[#0A8E81]">
-                ${product.price?.toFixed(2) || '0.00'}
+                ${(product.price || 0).toFixed(2)}
               </span>
               {product.originalPrice && product.originalPrice > product.price && (
                 <span className="text-sm text-gray-500 line-through">
