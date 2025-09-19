@@ -180,6 +180,9 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
     setIsLoading(true)
     setErrors({})
 
+    const startTime = Date.now()
+    console.log('[PRODUCT_MODAL] Starting product creation process')
+
     try {
       // Preparar datos del producto (sin ID manual - Prisma lo generará)
       const productData = {
@@ -197,7 +200,15 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
         // No incluir created_at ni updated_at - Prisma los manejará automáticamente
       }
 
+      console.log('[PRODUCT_MODAL] Product data prepared:', {
+        name: productData.name,
+        category: productData.category,
+        price: productData.price,
+        imagesCount: productData.images.length
+      })
+
       // Enviar al API
+      console.log('[PRODUCT_MODAL] Sending request to API...')
       const response = await fetch('/api/products/add', {
         method: 'POST',
         headers: {
@@ -206,29 +217,56 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
         body: JSON.stringify(productData),
       })
 
+      console.log('[PRODUCT_MODAL] API response status:', response.status)
+
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+        const errorText = await response.text()
+        console.error('[PRODUCT_MODAL] API error response:', errorText)
+        throw new Error(`HTTP error! status: ${response.status}, response: ${errorText}`)
       }
 
       const result = await response.json()
+      console.log('[PRODUCT_MODAL] API response:', result)
 
       if (result.success) {
+        console.log(`[PRODUCT_MODAL] Product created successfully in ${Date.now() - startTime}ms:`, result.product.id)
         toast.success('Product added successfully!')
         onProductAdded()
         onClose()
         resetForm()
       } else {
         const errorMessage = result.error || 'Failed to add product'
-        setErrors({ general: errorMessage })
+        console.error('[PRODUCT_MODAL] API returned error:', errorMessage)
+        
+        // Mostrar detalles adicionales si están disponibles
+        if (result.details && Array.isArray(result.details)) {
+          setErrors({ general: `${errorMessage}: ${result.details.join(', ')}` })
+        } else {
+          setErrors({ general: errorMessage })
+        }
+        
         toast.error(errorMessage)
       }
     } catch (error: any) {
-      console.error('Error adding product:', error)
-      const errorMessage = error.message || 'An error occurred while adding the product'
+      console.error(`[PRODUCT_MODAL] Error adding product (${Date.now() - startTime}ms):`, error)
+      
+      let errorMessage = 'An error occurred while adding the product'
+      
+      // Manejo específico de diferentes tipos de errores
+      if (error.message.includes('HTTP error')) {
+        errorMessage = 'Server error occurred. Please check your internet connection and try again.'
+      } else if (error.message.includes('Failed to fetch')) {
+        errorMessage = 'Network error. Please check your internet connection.'
+      } else if (error.message) {
+        errorMessage = error.message
+      }
+      
+      console.error('[PRODUCT_MODAL] Final error message:', errorMessage)
       setErrors({ general: errorMessage })
       toast.error(errorMessage)
     } finally {
       setIsLoading(false)
+      console.log(`[PRODUCT_MODAL] Process completed in ${Date.now() - startTime}ms`)
     }
   }
 
