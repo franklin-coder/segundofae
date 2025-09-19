@@ -11,6 +11,7 @@ interface DeleteConfirmModalProps {
   onConfirm: () => void
   productName: string
   isLoading?: boolean
+  error?: string | null
 }
 
 const DeleteConfirmModal = ({ 
@@ -18,7 +19,8 @@ const DeleteConfirmModal = ({
   onClose, 
   onConfirm, 
   productName,
-  isLoading = false 
+  isLoading = false,
+  error = null
 }: DeleteConfirmModalProps) => {
 
   const handleClose = () => {
@@ -78,6 +80,13 @@ const DeleteConfirmModal = ({
                 This action cannot be undone. The product will be permanently removed from your store.
               </p>
             </div>
+
+            {/* Error Message */}
+            {error && (
+              <div className="mb-4 bg-red-50 border border-red-200 rounded-lg p-3">
+                <p className="text-sm text-red-800">{error}</p>
+              </div>
+            )}
 
             {/* Buttons */}
             <div className="flex gap-2">
