@@ -8,6 +8,7 @@ import { Minus, Plus, X, ShoppingBag, ArrowRight, Lock, Truck, Heart } from 'luc
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useCart } from './cart-context'
+import { config, calculateTax, calculateShipping, calculateTotal } from '@/lib/config'
 
 const CartDetails = () => {
   const { items, updateQuantity, removeItem, total, clearCart } = useCart()
@@ -173,13 +174,13 @@ const CartDetails = () => {
             {/* Shipping */}
             <div className="flex justify-between text-gray-600">
               <span>Shipping</span>
-              <span>{(total || 0) >= 50 ? 'FREE' : '$9.99'}</span>
+              <span>{calculateShipping(total || 0) === 0 ? 'FREE' : `$${calculateShipping(total || 0).toFixed(2)}`}</span>
             </div>
 
             {/* Tax */}
             <div className="flex justify-between text-gray-600">
               <span>Tax (estimated)</span>
-              <span>${((total || 0) * 0.12).toFixed(2)}</span>
+              <span>${calculateTax(total || 0).toFixed(2)}</span>
             </div>
 
             <hr className="border-gray-200" />
@@ -188,17 +189,17 @@ const CartDetails = () => {
             <div className="flex justify-between text-xl font-bold">
               <span>Total</span>
               <span className="text-[#0A8E81]">
-                ${((total || 0) + ((total || 0) >= 50 ? 0 : 9.99) + (total || 0) * 0.12).toFixed(2)}
+                ${calculateTotal(total || 0).toFixed(2)}
               </span>
             </div>
 
             {/* Free Shipping Notice */}
-            {(total || 0) < 50 && (
+            {(total || 0) < config.business.freeShippingThreshold && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
                 <div className="flex items-center gap-2">
                   <Truck className="h-4 w-4 text-blue-600" />
                   <span className="text-sm text-blue-700">
-                    Add ${(50 - (total || 0)).toFixed(2)} more for FREE shipping!
+                    Add ${(config.business.freeShippingThreshold - (total || 0)).toFixed(2)} more for FREE shipping!
                   </span>
                 </div>
               </div>
@@ -234,7 +235,7 @@ const CartDetails = () => {
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <Truck className="h-4 w-4 text-green-600" />
-                <span>Free shipping on orders over $50</span>
+                <span>Free shipping on orders over ${config.business.freeShippingThreshold}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <Heart className="h-4 w-4 text-green-600" />

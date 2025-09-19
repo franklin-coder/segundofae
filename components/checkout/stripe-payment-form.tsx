@@ -7,6 +7,9 @@ import { getStripe } from '@/lib/stripe'
 import { Button } from '@/components/ui/button'
 import { Lock, AlertCircle, CheckCircle } from 'lucide-react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { useStripeError } from '@/hooks/use-stripe-error'
+import ErrorAlert from '@/components/ui/error-alert'
+import LoadingSpinner from '@/components/ui/loading-spinner'
 
 interface StripePaymentFormProps {
   clientSecret: string
@@ -26,18 +29,18 @@ const PaymentForm = ({ totalAmount, onSuccess, onError, orderDetails }: {
   const stripe = useStripe()
   const elements = useElements()
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const { error, setStripeError, clearError, getErrorSuggestion, hasError } = useStripeError()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!stripe || !elements) {
-      setError('Stripe has not loaded yet. Please wait.')
+      setStripeError({ message: 'Stripe has not loaded yet. Please wait.', type: 'validation_error' })
       return
     }
 
     setIsLoading(true)
-    setError(null)
+    clearError()
 
     try {
       // Confirmar el pago
@@ -50,7 +53,7 @@ const PaymentForm = ({ totalAmount, onSuccess, onError, orderDetails }: {
       })
 
       if (stripeError) {
-        setError(stripeError.message || 'An error occurred during payment')
+        setStripeError(stripeError)
         onError(stripeError.message || 'Payment failed')
       } else if (paymentIntent && paymentIntent.status === 'succeeded') {
         // Confirmar el pago en nuestro backend
@@ -71,18 +74,34 @@ const PaymentForm = ({ totalAmount, onSuccess, onError, orderDetails }: {
           if (result.success) {
             onSuccess(paymentIntent)
           } else {
-            setError(result.error || 'Payment confirmation failed')
+            setStripeError({ 
+              message: result.error || 'Payment confirmation failed', 
+              type: 'api_error' 
+            })
             onError(result.error || 'Payment confirmation failed')
           }
         } catch (confirmError) {
           console.error('Error confirming payment:', confirmError)
-          setError('Payment succeeded but confirmation failed. Please contact support.')
+          setStripeError({ 
+            message: 'Payment succeeded but confirmation failed. Please contact support.', 
+            type: 'api_error' 
+          })
           onError('Payment confirmation failed')
         }
+      } else if (paymentIntent && paymentIntent.status === 'processing') {
+        setStripeError({ 
+          message: 'Your payment is being processed. You will receive a confirmation email shortly.', 
+          type: 'validation_error' 
+        })
+      } else if (paymentIntent && paymentIntent.status === 'requires_action') {
+        setStripeError({ 
+          message: 'Your payment requires additional authentication. Please complete the verification.', 
+          type: 'validation_error' 
+        })
       }
     } catch (error: any) {
       console.error('Payment error:', error)
-      setError(error.message || 'An unexpected error occurred')
+      setStripeError(error)
       onError(error.message || 'Payment failed')
     } finally {
       setIsLoading(false)
@@ -91,20 +110,36 @@ const PaymentForm = ({ totalAmount, onSuccess, onError, orderDetails }: {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {error && (
-        <Alert className="border-red-200 bg-red-50">
-          <AlertCircle className="h-4 w-4 text-red-600" />
-          <AlertDescription className="text-red-700">
-            {error}
-          </AlertDescription>
-        </Alert>
+      {hasError && error && (
+        <ErrorAlert
+          title="Payment Error"
+          message={error.message}
+          suggestion={getErrorSuggestion(error)}
+          onDismiss={clearError}
+          variant={error.type === 'validation_error' ? 'warning' : 'destructive'}
+        />
       )}
 
       <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
         <PaymentElement
           options={{
             layout: 'tabs',
-            paymentMethodOrder: ['card', 'apple_pay', 'google_pay']
+            paymentMethodOrder: ['card', 'apple_pay', 'google_pay'],
+            fields: {
+              billingDetails: {
+                name: 'auto',
+                email: 'auto',
+                phone: 'auto',
+                address: {
+                  country: 'auto',
+                  line1: 'auto',
+                  line2: 'auto',
+                  city: 'auto',
+                  state: 'auto',
+                  postalCode: 'auto'
+                }
+              }
+            }
           }}
         />
       </div>
@@ -112,12 +147,12 @@ const PaymentForm = ({ totalAmount, onSuccess, onError, orderDetails }: {
       <Button
         type="submit"
         disabled={!stripe || !elements || isLoading}
-        className="w-full bg-[#0A8E81] hover:bg-[#087267] text-white py-4 text-lg font-medium"
+        className="w-full bg-[#0A8E81] hover:bg-[#087267] text-white py-4 text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         size="lg"
       >
         {isLoading ? (
           <div className="flex items-center gap-2">
-            <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent" />
+            <LoadingSpinner size="sm" color="white" />
             Processing Payment...
           </div>
         ) : (
@@ -128,10 +163,13 @@ const PaymentForm = ({ totalAmount, onSuccess, onError, orderDetails }: {
         )}
       </Button>
 
-      <div className="text-center">
+      <div className="text-center space-y-2">
         <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
           <Lock className="h-4 w-4 text-green-600" />
           <span>Your payment information is secure and encrypted</span>
+        </div>
+        <div className="text-xs text-gray-500">
+          Powered by Stripe • PCI DSS compliant
         </div>
       </div>
     </form>
