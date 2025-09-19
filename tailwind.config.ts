@@ -1,4 +1,3 @@
-
 import type { Config } from 'tailwindcss'
 
 const config = {
@@ -134,7 +133,8 @@ const config = {
         'count-up': 'countUp 0.8s ease-out'
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-della-respira)', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-berkshire-swash)', 'serif'],
       },
       aspectRatio: {
         'product': '4/5',
