@@ -57,8 +57,7 @@ const CategoryShowcase = () => {
             Explore Our Collections
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            From bold statement pieces to delicate everyday wear, find the perfect 
-            jewelry to complement your unique style and personality.
+            From finely detailed crochet and beaded jewelry to thoughtfully crafted resin pieces, plush creations, and everyday accessories, each item is designed with care and attention to detail. Every piece is unique, reflecting a dedication to craftsmanship and a love for thoughtful design. Our collection offers timeless elegance with a subtle, imaginative touch, for those who appreciate quality, individuality, and beauty in the objects they surround themselves with.
           </p>
         </motion.div>
 
