@@ -13,6 +13,8 @@ import { Badge } from '@/components/ui/badge'
 import { useCart } from '@/components/cart/cart-context'
 import { useRouter } from 'next/navigation'
 import StripePaymentForm from './stripe-payment-form'
+import { config, calculateTax, calculateShipping, calculateTotal } from '@/lib/config'
+import LoadingSpinner from '@/components/ui/loading-spinner'
 
 const CheckoutForm = () => {
   const { items, total, clearCart } = useCart()
@@ -42,9 +44,9 @@ const CheckoutForm = () => {
   })
 
   const subtotal = total || 0
-  const shipping = subtotal >= 50 ? 0 : 9.99
-  const tax = subtotal * 0.12
-  const totalAmount = subtotal + shipping + tax
+  const shipping = calculateShipping(subtotal)
+  const tax = calculateTax(subtotal)
+  const totalAmount = calculateTotal(subtotal)
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({
@@ -70,11 +72,19 @@ const CheckoutForm = () => {
         },
         body: JSON.stringify({
           amount: totalAmount,
-          currency: 'cad',
+          currency: config.stripe.currency,
+          customer_email: formData.email,
+          items: items || [],
           metadata: {
             customer_email: formData.email,
             customer_name: `${formData.firstName} ${formData.lastName}`,
-            items: items?.map(item => `${item?.name} (${item?.quantity})`).join(', ') || ''
+            shipping_address: `${formData.address}, ${formData.city}, ${formData.province} ${formData.postalCode}`,
+            phone: formData.phone,
+            items_summary: items?.map(item => `${item?.name} (${item?.quantity})`).join(', ') || '',
+            subtotal: subtotal.toString(),
+            shipping: shipping.toString(),
+            tax: tax.toString(),
+            total: totalAmount.toString()
           }
         }),
       })
@@ -443,6 +453,12 @@ const CheckoutForm = () => {
               <span>Shipping</span>
               <span>{shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}</span>
             </div>
+            
+            {subtotal < config.business.freeShippingThreshold && (
+              <div className="text-xs text-blue-600">
+                Add ${(config.business.freeShippingThreshold - subtotal).toFixed(2)} more for FREE shipping!
+              </div>
+            )}
             
             <div className="flex justify-between text-gray-600">
               <span>Tax (GST/PST)</span>

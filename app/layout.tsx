@@ -1,5 +1,5 @@
-
 import type { Metadata } from 'next'
+import { Berkshire_Swash, Della_Respira } from 'next/font/google'
 import { Inter } from 'next/font/google'
 import { Berkshire_Swash } from 'next/font/google'
 import { Della_Respira } from 'next/font/google'
@@ -13,6 +13,17 @@ import { CartProvider } from '@/components/cart/cart-context'
 import { AuthProvider } from '@/contexts/auth-context'
 import AdminControls from '@/components/admin/admin-controls'
 
+const dellaRespira = Della_Respira({ 
+  subsets: ['latin'],
+  variable: '--font-della-respira',
+  weight: '400'
+})
+
+const berkshireSwash = Berkshire_Swash({ 
+  subsets: ['latin'],
+  variable: '--font-berkshire-swash',
+  weight: '400'
+})
 const inter = Inter({ subsets: ['latin'] })
 
 const berkshireSwash = Berkshire_Swash({ 
@@ -48,7 +59,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${dellaRespira.variable} ${berkshireSwash.variable}`} suppressHydrationWarning>
+      <body className={`${dellaRespira.variable} ${berkshireSwash.variable} font-sans`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

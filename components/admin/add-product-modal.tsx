@@ -17,6 +17,15 @@ interface AddProductModalProps {
   onProductAdded: () => void
 }
 
+interface FormErrors {
+  name?: string
+  price?: string
+  description?: string
+  category?: string
+  images?: string
+  general?: string
+}
+
 const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalProps) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -33,6 +42,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
   
   const [images, setImages] = useState<string[]>(['', ''])
   const [isLoading, setIsLoading] = useState(false)
+  const [errors, setErrors] = useState<FormErrors>({})
 
   const categories = [
     { value: 'necklaces', label: 'Necklaces' },
@@ -41,21 +51,93 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
     { value: 'and-more', label: 'And More' }
   ]
 
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {}
+
+    // Validar campos requeridos
+    if (!formData.name.trim()) {
+      newErrors.name = 'Product name is required'
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Product name must be at least 2 characters'
+    }
+
+    if (!formData.price.trim()) {
+      newErrors.price = 'Price is required'
+    } else {
+      const price = parseFloat(formData.price)
+      if (isNaN(price) || price <= 0) {
+        newErrors.price = 'Price must be a valid positive number'
+      } else if (price > 10000) {
+        newErrors.price = 'Price cannot exceed $10,000'
+      }
+    }
+
+    if (!formData.description.trim()) {
+      newErrors.description = 'Description is required'
+    } else if (formData.description.trim().length < 10) {
+      newErrors.description = 'Description must be at least 10 characters'
+    }
+
+    if (!formData.category) {
+      newErrors.category = 'Category is required'
+    }
+
+    // Validar imágenes (al menos una URL válida)
+    const validImages = images.filter(img => img.trim() !== '')
+    if (validImages.length === 0) {
+      newErrors.images = 'At least one product image is required'
+    } else {
+      // Validar formato básico de URLs
+      const invalidUrls = validImages.filter(url => {
+        try {
+          new URL(url)
+          return false
+        } catch {
+          return true
+        }
+      })
+      if (invalidUrls.length > 0) {
+        newErrors.images = 'All image URLs must be valid'
+      }
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }))
+    
+    // Limpiar error del campo cuando el usuario empiece a escribir
+    if (errors[field as keyof FormErrors]) {
+      setErrors(prev => ({
+        ...prev,
+        [field]: undefined
+      }))
+    }
   }
 
   const handleImageChange = (index: number, value: string) => {
     const newImages = [...images]
     newImages[index] = value
     setImages(newImages)
+    
+    // Limpiar error de imágenes cuando el usuario modifique
+    if (errors.images) {
+      setErrors(prev => ({
+        ...prev,
+        images: undefined
+      }))
+    }
   }
 
   const addImageField = () => {
-    setImages([...images, ''])
+    if (images.length < 10) { // Límite máximo de imágenes
+      setImages([...images, ''])
+    }
   }
 
   const removeImageField = (index: number) => {
@@ -65,37 +147,68 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
     }
   }
 
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      price: '',
+      description: '',
+      longDescription: '',
+      category: 'necklaces',
+      materials: '',
+      dimensions: '',
+      care_instructions: '',
+      featured: false,
+      inStock: true
+    })
+    setImages(['', ''])
+    setErrors({})
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (isLoading) {
+      return // Prevenir múltiples envíos
+    }
+
+    // Validar formulario
+    if (!validateForm()) {
+      toast.error('Please fix the errors in the form')
+      return
+    }
+
     setIsLoading(true)
+    setErrors({})
+
+    const startTime = Date.now()
+    console.log('[PRODUCT_MODAL] Starting product creation process')
 
     try {
-      // Validar campos requeridos
-      if (!formData.name || !formData.price || !formData.description) {
-        toast.error('Please fill in all required fields')
-        setIsLoading(false)
-        return
-      }
-
-      // Preparar datos del producto
+      // Preparar datos del producto (sin ID manual - Prisma lo generará)
       const productData = {
-        id: `${formData.category}-${Date.now().toString().slice(-6)}`,
-        name: formData.name,
+        name: formData.name.trim(),
         price: parseFloat(formData.price),
-        description: formData.description,
-        longDescription: formData.longDescription || formData.description,
+        description: formData.description.trim(),
+        longDescription: formData.longDescription.trim() || formData.description.trim(),
         category: formData.category,
         images: images.filter(img => img.trim() !== ''),
         featured: formData.featured,
         inStock: formData.inStock,
-        materials: formData.materials.split(',').map(m => m.trim()).filter(m => m !== ''),
-        dimensions: formData.dimensions,
-        care_instructions: formData.care_instructions,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        materials: formData.materials ? formData.materials.split(',').map(m => m.trim()).filter(m => m !== '') : [],
+        dimensions: formData.dimensions.trim(),
+        care_instructions: formData.care_instructions.trim(),
+        // No incluir created_at ni updated_at - Prisma los manejará automáticamente
       }
 
+      console.log('[PRODUCT_MODAL] Product data prepared:', {
+        name: productData.name,
+        category: productData.category,
+        price: productData.price,
+        imagesCount: productData.images.length
+      })
+
       // Enviar al API
+      console.log('[PRODUCT_MODAL] Sending request to API...')
       const response = await fetch('/api/products/add', {
         method: 'POST',
         headers: {
@@ -104,41 +217,64 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
         body: JSON.stringify(productData),
       })
 
+      console.log('[PRODUCT_MODAL] API response status:', response.status)
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error('[PRODUCT_MODAL] API error response:', errorText)
+        throw new Error(`HTTP error! status: ${response.status}, response: ${errorText}`)
+      }
+
       const result = await response.json()
+      console.log('[PRODUCT_MODAL] API response:', result)
 
       if (result.success) {
+        console.log(`[PRODUCT_MODAL] Product created successfully in ${Date.now() - startTime}ms:`, result.product.id)
         toast.success('Product added successfully!')
         onProductAdded()
         onClose()
-        
-        // Reset form
-        setFormData({
-          name: '',
-          price: '',
-          description: '',
-          longDescription: '',
-          category: 'necklaces',
-          materials: '',
-          dimensions: '',
-          care_instructions: '',
-          featured: false,
-          inStock: true
-        })
-        setImages(['', ''])
+        resetForm()
       } else {
-        toast.error(result.error || 'Failed to add product')
+        const errorMessage = result.error || 'Failed to add product'
+        console.error('[PRODUCT_MODAL] API returned error:', errorMessage)
+        
+        // Mostrar detalles adicionales si están disponibles
+        if (result.details && Array.isArray(result.details)) {
+          setErrors({ general: `${errorMessage}: ${result.details.join(', ')}` })
+        } else {
+          setErrors({ general: errorMessage })
+        }
+        
+        toast.error(errorMessage)
       }
-    } catch (error) {
-      console.error('Error adding product:', error)
-      toast.error('An error occurred while adding the product')
+    } catch (error: any) {
+      console.error(`[PRODUCT_MODAL] Error adding product (${Date.now() - startTime}ms):`, error)
+      
+      let errorMessage = 'An error occurred while adding the product'
+      
+      // Manejo específico de diferentes tipos de errores
+      if (error.message.includes('HTTP error')) {
+        errorMessage = 'Server error occurred. Please check your internet connection and try again.'
+      } else if (error.message.includes('Failed to fetch')) {
+        errorMessage = 'Network error. Please check your internet connection.'
+      } else if (error.message) {
+        errorMessage = error.message
+      }
+      
+      console.error('[PRODUCT_MODAL] Final error message:', errorMessage)
+      setErrors({ general: errorMessage })
+      toast.error(errorMessage)
     } finally {
       setIsLoading(false)
+      console.log(`[PRODUCT_MODAL] Process completed in ${Date.now() - startTime}ms`)
     }
   }
 
   const handleClose = () => {
     if (!isLoading) {
       onClose()
+      // Limpiar errores al cerrar
+      setErrors({})
     }
   }
 
@@ -171,11 +307,18 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
               <button
                 onClick={handleClose}
                 disabled={isLoading}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-50"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
+
+            {/* Error General */}
+            {errors.general && (
+              <div className="mx-6 mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-sm text-red-600">{errors.general}</p>
+              </div>
+            )}
 
             {/* Form */}
             <div className="overflow-y-auto max-h-[calc(90vh-120px)]">
@@ -189,8 +332,10 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                       value={formData.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
                       placeholder="e.g., LUNA Crystal Necklace"
+                      className={errors.name ? 'border-red-500' : ''}
                       required
                     />
+                    {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
                   </div>
                   
                   <div>
@@ -199,11 +344,15 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                       id="price"
                       type="number"
                       step="0.01"
+                      min="0"
+                      max="10000"
                       value={formData.price}
                       onChange={(e) => handleInputChange('price', e.target.value)}
                       placeholder="25.00"
+                      className={errors.price ? 'border-red-500' : ''}
                       required
                     />
+                    {errors.price && <p className="text-sm text-red-600 mt-1">{errors.price}</p>}
                   </div>
                 </div>
 
@@ -214,7 +363,9 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                     id="category"
                     value={formData.category}
                     onChange={(e) => handleInputChange('category', e.target.value)}
-                    className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                    className={`mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ${
+                      errors.category ? 'border-red-500' : ''
+                    }`}
                     required
                   >
                     {categories.map(cat => (
@@ -223,6 +374,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                       </option>
                     ))}
                   </select>
+                  {errors.category && <p className="text-sm text-red-600 mt-1">{errors.category}</p>}
                 </div>
 
                 {/* Descriptions */}
@@ -234,8 +386,10 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                     onChange={(e) => handleInputChange('description', e.target.value)}
                     placeholder="Brief description for product cards"
                     rows={2}
+                    className={errors.description ? 'border-red-500' : ''}
                     required
                   />
+                  {errors.description && <p className="text-sm text-red-600 mt-1">{errors.description}</p>}
                 </div>
 
                 <div>
@@ -251,7 +405,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
 
                 {/* Product Images */}
                 <div>
-                  <Label>Product Images</Label>
+                  <Label>Product Images *</Label>
                   <div className="space-y-2">
                     {images.map((image, index) => (
                       <div key={index} className="flex gap-2">
@@ -259,7 +413,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                           value={image}
                           onChange={(e) => handleImageChange(index, e.target.value)}
                           placeholder="Enter image URL"
-                          className="flex-1"
+                          className={`flex-1 ${errors.images ? 'border-red-500' : ''}`}
                         />
                         {images.length > 1 && (
                           <Button
@@ -267,23 +421,28 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                             variant="outline"
                             size="sm"
                             onClick={() => removeImageField(index)}
+                            disabled={isLoading}
                           >
                             <X className="h-4 w-4" />
                           </Button>
                         )}
                       </div>
                     ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={addImageField}
-                      className="w-full"
-                    >
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Image URL
-                    </Button>
+                    {images.length < 10 && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={addImageField}
+                        className="w-full"
+                        disabled={isLoading}
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Add Image URL
+                      </Button>
+                    )}
                   </div>
+                  {errors.images && <p className="text-sm text-red-600 mt-1">{errors.images}</p>}
                 </div>
 
                 {/* Product Details */}
@@ -329,6 +488,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                       id="featured"
                       checked={formData.featured}
                       onCheckedChange={(checked) => handleInputChange('featured', checked as boolean)}
+                      disabled={isLoading}
                     />
                     <Label htmlFor="featured" className="text-sm font-medium cursor-pointer">
                       Featured product
@@ -340,6 +500,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                       id="inStock"
                       checked={formData.inStock}
                       onCheckedChange={(checked) => handleInputChange('inStock', checked as boolean)}
+                      disabled={isLoading}
                     />
                     <Label htmlFor="inStock" className="text-sm font-medium cursor-pointer">
                       In stock
