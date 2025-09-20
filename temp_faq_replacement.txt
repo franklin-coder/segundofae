@@ -1,0 +1,32 @@
+    {
+      question: "Are all your creations handmade?",
+      answer: "Yes. Every item in Faelight Crafts is carefully handmade — from crochet earrings and creatures to jewelry, soaps, and decorations. Each piece is unique, which means no two are ever exactly alike."
+    },
+    {
+      question: "Do you take custom orders?",
+      answer: "At the moment, custom orders are open. If you have a special request, feel free to reach out through the contact page or Instagram — I'll let you know if it's possible."
+    },
+    {
+      question: "What materials do you use?",
+      answer: "I use a mix of quality yarns, threads, glass, acrilyc beads and hypoalergenic metals, . Whenever possible, I choose sustainable or responsibly sourced materials, though availability may vary."
+    },
+    {
+      question: "How do I care for my item?",
+      answer: "Each creation is delicate and best treated with care. For crochet pieces: hand-wash gently and lay flat to dry. For jewelry: keep away from water and store in a dry place. Every order comes with simple care instructions."
+    },
+    {
+      question: "Where do you ship?",
+      answer: "Worldwide!. Shipping options and prices will be available at checkout."
+    },
+    {
+      question: "How long will my order take to arrive?",
+      answer: "Since each item is handmade, processing may take 3–5 business days before shipping. Delivery times vary by location and shipping method chosen."
+    },
+    {
+      question: "Do you sell at markets or only online?",
+      answer: "Both! Faelight Crafts can be found at local markets and fairs, as well as here in the online store. Follow me on Instagram for upcoming events."
+    },
+    {
+      question: "What if the item I love is sold out?",
+      answer: "Many creations are one of a kind, so once sold, they may not return. However, similar designs or new variations are always in the works — check back often or reach out to see what's coming next."
+    }
