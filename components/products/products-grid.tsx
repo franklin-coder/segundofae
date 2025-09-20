@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import ProductCard from './product-card'
 import { Button } from '@/components/ui/button'
@@ -15,34 +15,52 @@ interface ProductsGridProps {
 const ProductsGrid = ({ category }: ProductsGridProps) => {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [sortBy, setSortBy] = useState<'name' | 'price-low' | 'price-high' | 'newest'>('newest')
 
-  const loadProducts = async () => {
+  const loadProducts = useCallback(async () => {
     try {
+      // Reset states at the beginning of each load
       setLoading(true)
+      setError(null)
+      setProducts([]) // Clear previous products immediately
+      
       const params = new URLSearchParams()
       
       if (category && category !== 'all') {
         params.append('category', category)
       }
       
-      const response = await fetch(`/api/products?${params}`)
+      console.log(`Loading products for category: ${category || 'all'}`)
+      
+      const response = await fetch(`/api/products?${params}`, {
+        // Add cache busting to prevent stale data
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        }
+      })
+      
       if (response?.ok) {
         const data = await response.json()
+        console.log(`Loaded ${data?.products?.length || 0} products for category: ${category || 'all'}`)
         setProducts(data?.products || [])
+      } else {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
       }
     } catch (error) {
       console.error('Error loading products:', error)
+      setError(error instanceof Error ? error.message : 'Failed to load products')
       setProducts([])
     } finally {
       setLoading(false)
     }
-  }
+  }, [category])
 
   useEffect(() => {
     loadProducts()
-  }, [category])
+  }, [loadProducts])
 
   const handleProductDeleted = () => {
     // Recargar productos después de eliminar uno
@@ -76,6 +94,28 @@ const ProductsGrid = ({ category }: ProductsGridProps) => {
             <div key={i} className="bg-white rounded-lg h-96 animate-pulse" />
           ))}
         </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12 bg-white rounded-lg">
+        <div className="text-red-400 mb-4">
+          <SlidersHorizontal className="h-12 w-12 mx-auto" />
+        </div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+          Error loading products
+        </h3>
+        <p className="text-gray-600 mb-6">
+          {error}
+        </p>
+        <Button 
+          onClick={() => loadProducts()}
+          className="bg-[#0A8E81] hover:bg-[#087267]"
+        >
+          Try Again
+        </Button>
       </div>
     )
   }
