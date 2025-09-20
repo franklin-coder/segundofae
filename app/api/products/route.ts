@@ -1,7 +1,7 @@
 // app/api/products/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
+// import { Prisma } from '@prisma/client' // Commented out due to build issues
 
 export const dynamic = "force-dynamic"
 
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     const limit = searchParams.get('limit')
 
     // ✅ Construir el filtro dinámico para Prisma
-    const where: Prisma.ProductWhereInput = {}
+    const where: any = {}
 
     if (category && category !== 'all') {
       where.category = category

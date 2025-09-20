@@ -21,7 +21,7 @@ export async function DELETE(request: NextRequest) {
     const trimmedProductId = productId.trim()
 
     // Usar transacción para operación atómica
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       // Primero verificar que el producto existe
       const existingProduct = await tx.product.findUnique({
         where: { id: trimmedProductId },
