@@ -1,19 +1,13 @@
-// app/api/products/route.ts
-import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+const { PrismaClient } = require('@prisma/client')
 
-export const dynamic = "force-dynamic"
+const prisma = new PrismaClient()
 
-export async function GET(request: NextRequest) {
+// Simulate the exact API logic from the improved route
+async function simulateApiCall(category, featured = null, limit = null) {
   const startTime = Date.now()
-  let requestId = Math.random().toString(36).substring(7)
+  const requestId = Math.random().toString(36).substring(7)
   
   try {
-    const { searchParams } = new URL(request.url)
-    const category = searchParams.get('category')
-    const featured = searchParams.get('featured')
-    const limit = searchParams.get('limit')
-
     console.log(`[API:${requestId}] 🚀 Starting request - category: ${category}, featured: ${featured}, limit: ${limit}`)
 
     // ✅ Validate database connection first
@@ -26,11 +20,11 @@ export async function GET(request: NextRequest) {
     }
 
     // ✅ Construir el filtro dinámico para Prisma
-    const where: any = {}
+    const where = {}
 
     if (category && category !== 'all') {
       // Handle category mapping for URL-friendly names
-      const categoryMap: { [key: string]: string } = {
+      const categoryMap = {
         'and-more': 'anklets', // Map URL-friendly name to database value
         'necklaces': 'necklaces',
         'earrings': 'earrings',
@@ -75,7 +69,7 @@ export async function GET(request: NextRequest) {
       new Promise((_, reject) => 
         setTimeout(() => reject(new Error('Query timeout after 10 seconds')), 10000)
       )
-    ]) as any[]
+    ])
 
     const queryTime = Date.now() - queryStartTime
     console.log(`[API:${requestId}] ✅ Query completed in ${queryTime}ms - Found ${products.length} products`)
@@ -98,7 +92,7 @@ export async function GET(request: NextRequest) {
     const totalTime = Date.now() - startTime
     console.log(`[API:${requestId}] 🏁 Request completed in ${totalTime}ms`)
 
-    return NextResponse.json({
+    return {
       success: true,
       products,
       total: products.length,
@@ -112,7 +106,7 @@ export async function GET(request: NextRequest) {
         totalTime: `${totalTime}ms`
       },
       timestamp: new Date().toISOString()
-    })
+    }
   } catch (error) {
     const totalTime = Date.now() - startTime
     console.error(`[API:${requestId}] ❌ Error after ${totalTime}ms:`, error)
@@ -126,11 +120,11 @@ export async function GET(request: NextRequest) {
 
     // Check if it's a Prisma error
     if (error && typeof error === 'object' && 'code' in error) {
-      console.error(`[API:${requestId}] Prisma error code:`, (error as any).code)
-      console.error(`[API:${requestId}] Prisma error meta:`, (error as any).meta)
+      console.error(`[API:${requestId}] Prisma error code:`, error.code)
+      console.error(`[API:${requestId}] Prisma error meta:`, error.meta)
     }
 
-    return NextResponse.json({
+    return {
       success: false,
       error: 'Failed to fetch products',
       products: [],
@@ -139,6 +133,114 @@ export async function GET(request: NextRequest) {
       requestId,
       timestamp: new Date().toISOString(),
       totalTime: `${totalTime}ms`
-    }, { status: 500 })
+    }
   }
 }
+
+async function testCompleteFlow() {
+  console.log('🧪 COMPLETE FLOW TEST - Simulating User Navigation')
+  console.log('=' .repeat(70))
+
+  // Test scenarios that simulate user navigation
+  const testScenarios = [
+    {
+      name: 'Initial page load (all products)',
+      category: null,
+      expectedSuccess: true
+    },
+    {
+      name: 'Navigate to Necklaces',
+      category: 'necklaces',
+      expectedSuccess: true
+    },
+    {
+      name: 'Navigate to Earrings',
+      category: 'earrings',
+      expectedSuccess: true
+    },
+    {
+      name: 'Navigate to Bracelets',
+      category: 'bracelets',
+      expectedSuccess: true
+    },
+    {
+      name: 'Navigate to And More (problematic one)',
+      category: 'and-more',
+      expectedSuccess: true
+    },
+    {
+      name: 'Navigate to Anklets directly',
+      category: 'anklets',
+      expectedSuccess: true
+    },
+    {
+      name: 'Navigate back to All',
+      category: 'all',
+      expectedSuccess: true
+    },
+    {
+      name: 'Invalid category',
+      category: 'invalid-category',
+      expectedSuccess: true // Should return empty results, not error
+    }
+  ]
+
+  let passedTests = 0
+  let failedTests = 0
+
+  for (let i = 0; i < testScenarios.length; i++) {
+    const scenario = testScenarios[i]
+    console.log(`\n${i + 1}️⃣ ${scenario.name}`)
+    console.log('-' .repeat(50))
+
+    try {
+      const result = await simulateApiCall(scenario.category)
+      
+      if (result.success === scenario.expectedSuccess) {
+        console.log(`✅ PASS: ${scenario.name}`)
+        console.log(`   📊 Found ${result.total} products`)
+        if (result.query) {
+          console.log(`   🔍 Query: ${JSON.stringify(result.query, null, 2)}`)
+        }
+        passedTests++
+      } else {
+        console.log(`❌ FAIL: ${scenario.name}`)
+        console.log(`   Expected success: ${scenario.expectedSuccess}, Got: ${result.success}`)
+        console.log(`   Error: ${result.details || result.error}`)
+        failedTests++
+      }
+      
+      // Wait between tests to simulate real user behavior
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
+    } catch (error) {
+      console.log(`❌ FAIL: ${scenario.name} - Exception thrown`)
+      console.log(`   Error: ${error.message}`)
+      failedTests++
+    }
+  }
+
+  console.log('\n📊 TEST SUMMARY')
+  console.log('=' .repeat(70))
+  console.log(`✅ Passed: ${passedTests}`)
+  console.log(`❌ Failed: ${failedTests}`)
+  console.log(`📈 Success Rate: ${((passedTests / (passedTests + failedTests)) * 100).toFixed(1)}%`)
+
+  if (failedTests === 0) {
+    console.log('\n🎉 ALL TESTS PASSED! The CRUD logic is working correctly.')
+    console.log('   If you\'re still experiencing HTTP 500 errors in the browser,')
+    console.log('   the issue is likely in the Next.js server configuration,')
+    console.log('   environment variables, or build process.')
+  } else {
+    console.log('\n⚠️ Some tests failed. Check the error details above.')
+  }
+}
+
+testCompleteFlow()
+  .catch((e) => {
+    console.error('❌ Test suite failed:', e)
+    process.exit(1)
+  })
+  .finally(async () => {
+    await prisma.$disconnect()
+  })
