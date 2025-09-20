@@ -290,7 +290,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
         // Por ahora, convertimos a base64 o usamos un servicio de almacenamiento
         // Para esta implementación, usaremos las URLs de preview temporalmente
         finalImages = imagePreviews
-        toast.info('File upload functionality needs server implementation')
+        toast('File upload functionality needs server implementation')
       } else {
         finalImages = images.filter(img => img.trim() !== '')
       }
