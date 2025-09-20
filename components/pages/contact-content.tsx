@@ -31,36 +31,36 @@ const ContactContent = () => {
 
   const faqs = [
     {
-      question: "¿Todos sus productos son hechos a mano?",
-      answer: "Sí, cada pieza de joyería de Faelight Crafts es cuidadosamente hecha a mano usando técnicas tradicionales de macramé. Cada producto es único y refleja la dedicación artesanal en cada detalle."
+      question: "Are all your creations handmade?",
+      answer: "Yes. Every item in Faelight Crafts is carefully handmade — from crochet earrings and creatures to jewelry, soaps, and decorations. Each piece is unique, which means no two are ever exactly alike."
     },
     {
-      question: "¿Aceptan pedidos personalizados?",
-      answer: "¡Por supuesto! Nos encanta crear piezas personalizadas. Contáctanos con tus ideas, colores preferidos y cualquier requisito específico. Los pedidos personalizados suelen tomar 2-3 semanas para completarse."
+      question: "Do you take custom orders?",
+      answer: "At the moment, custom orders are open. If you have a special request, feel free to reach out through the contact page or Instagram — I'll let you know if it's possible."
     },
     {
-      question: "¿Qué materiales utilizan en sus productos?",
-      answer: "Utilizamos materiales de alta calidad como cordones de algodón, fibras naturales, cuentas de madera y herrajes de plata esterlina. Todos los materiales son cuidadosamente seleccionados por su durabilidad y atractivo estético."
+      question: "What materials do you use?",
+      answer: "I use a mix of quality yarns, threads, glass, acrilyc beads and hypoalergenic metals, . Whenever possible, I choose sustainable or responsibly sourced materials, though availability may vary."
     },
     {
-      question: "¿Cómo debo cuidar mi joyería de macramé?",
-      answer: "Para mantener tu joyería hermosa, evita mojarla y guárdala en un lugar seco. Para limpiarla, cepilla suavemente con un cepillo suave o paño. Evita químicos fuertes y luz solar directa por períodos prolongados."
+      question: "How do I care for my item?",
+      answer: "Each creation is delicate and best treated with care. For crochet pieces: hand-wash gently and lay flat to dry. For jewelry: keep away from water and store in a dry place. Every order comes with simple care instructions."
     },
     {
-      question: "¿Realizan envíos internacionales?",
-      answer: "¡Sí! Enviamos a todo el mundo desde Victoria, Canadá. Los costos y tiempos de envío varían según la ubicación. Contáctanos para obtener tarifas específicas a tu país."
+      question: "Where do you ship?",
+      answer: "Worldwide!. Shipping options and prices will be available at checkout."
     },
     {
-      question: "¿Cuánto tiempo toma el envío?",
-      answer: "Los pedidos generalmente se envían dentro de 3-5 días hábiles. El envío dentro de Canadá toma 5-7 días hábiles, mientras que el envío internacional puede tomar 10-14 días hábiles."
+      question: "How long will my order take to arrive?",
+      answer: "Since each item is handmade, processing may take 3–5 business days before shipping. Delivery times vary by location and shipping method chosen."
     },
     {
-      question: "¿Participan en mercados locales?",
-      answer: "¡Sí! Participamos regularmente en mercados artesanales locales en Victoria. Síguenos en redes sociales o consulta aquí para conocer las próximas fechas y ubicaciones de mercados."
+      question: "Do you sell at markets or only online?",
+      answer: "Both! Faelight Crafts can be found at local markets and fairs, as well as here in the online store. Follow me on Instagram for upcoming events."
     },
     {
-      question: "¿Cada pieza es realmente única?",
-      answer: "Absolutamente. Aunque podemos crear piezas similares, cada producto de Faelight Crafts tiene sus propias características únicas debido a la naturaleza artesanal del proceso de creación. No encontrarás dos piezas exactamente iguales."
+      question: "What if the item I love is sold out?",
+      answer: "Many creations are one of a kind, so once sold, they may not return. However, similar designs or new variations are always in the works — check back often or reach out to see what's coming next."
     }
   ];
 
