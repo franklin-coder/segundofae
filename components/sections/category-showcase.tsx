@@ -44,7 +44,7 @@ const CategoryShowcase = () => {
   ]
 
   return (
-    <section className="py-20" style={{ backgroundColor: '#FAF5EF' }}>
+    <section id="explore-collections" className="py-20" style={{ backgroundColor: '#FAF5EF' }}>
       <div className="container">
         <motion.div 
           className="text-center mb-16"
