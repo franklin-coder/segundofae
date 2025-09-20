@@ -11,31 +11,41 @@ interface RouteParams {
   }
 }
 
-// Función auxiliar para búsqueda flexible de productos
+// Función auxiliar para búsqueda flexible de productos con logging mejorado
 async function findProductFlexibly(id: string) {
+  const startTime = Date.now()
+  
   try {
+    console.log(`[API_PRODUCT_SEARCH] Starting flexible search for ID: "${id}"`)
+    
     // Estrategia 1: Búsqueda directa por ID
     let product = await prisma.product.findUnique({
       where: { id }
     })
 
     if (product) {
+      console.log(`[API_PRODUCT_SEARCH] Direct match found: ${product.id} (${Date.now() - startTime}ms)`)
       return { product, searchStrategy: 'direct' }
     }
+
+    console.log(`[API_PRODUCT_SEARCH] No direct match, trying flexible search...`)
 
     // Estrategia 2: Búsqueda por ID con diferentes formatos
     const productsWithSimilarId = await prisma.product.findMany({
       where: {
         OR: [
-          { id: { contains: id } },
-          { id: { startsWith: id } },
-          { id: { endsWith: id } }
+          { id: { contains: id, mode: 'insensitive' } },
+          { id: { startsWith: id, mode: 'insensitive' } },
+          { id: { endsWith: id, mode: 'insensitive' } }
         ]
       },
-      take: 5
+      take: 10
     })
 
+    console.log(`[API_PRODUCT_SEARCH] Similar ID search found ${productsWithSimilarId.length} products`)
+
     if (productsWithSimilarId.length > 0) {
+      console.log(`[API_PRODUCT_SEARCH] Similar ID matches:`, productsWithSimilarId.map((p: any) => p.id))
       return { 
         product: productsWithSimilarId[0], 
         searchStrategy: 'similar_id',
@@ -47,6 +57,8 @@ async function findProductFlexibly(id: string) {
     const decodedId = decodeURIComponent(id)
     const searchTerms = decodedId.split(/[-_\s]+/).filter(term => term.length > 2)
     
+    console.log(`[API_PRODUCT_SEARCH] Search terms extracted: ${searchTerms.join(', ')}`)
+    
     if (searchTerms.length > 0) {
       const nameSearchProducts = await prisma.product.findMany({
         where: {
@@ -54,10 +66,13 @@ async function findProductFlexibly(id: string) {
             name: { contains: term, mode: 'insensitive' as const }
           }))
         },
-        take: 5
+        take: 10
       })
 
+      console.log(`[API_PRODUCT_SEARCH] Name search found ${nameSearchProducts.length} products`)
+
       if (nameSearchProducts.length > 0) {
+        console.log(`[API_PRODUCT_SEARCH] Name search matches:`, nameSearchProducts.map((p: any) => `${p.id} (${p.name})`))
         return { 
           product: nameSearchProducts[0], 
           searchStrategy: 'name_search',
@@ -66,9 +81,20 @@ async function findProductFlexibly(id: string) {
       }
     }
 
+    console.log(`[API_PRODUCT_SEARCH] No product found after all strategies (${Date.now() - startTime}ms)`)
+    
+    // Log de productos disponibles para debugging
+    const allProducts = await prisma.product.findMany({
+      select: { id: true, name: true, category: true },
+      take: 20
+    })
+    console.log(`[API_PRODUCT_SEARCH] Available products:`, allProducts.map((p: any) => `${p.id} (${p.category})`))
+
     return null
   } catch (error) {
-    console.error('Error in flexible product search:', error)
+    console.error(`[API_PRODUCT_SEARCH] Error in flexible product search (${Date.now() - startTime}ms):`, error)
+    console.error(`[API_PRODUCT_SEARCH] Search ID:`, id)
+    console.error(`[API_PRODUCT_SEARCH] Database URL configured:`, !!process.env.DATABASE_URL)
     return null
   }
 }
@@ -125,7 +151,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         searchStrategy,
         originalId: trimmedId,
         foundId: product.id,
-        alternatives: alternatives?.map(p => ({ id: p.id, name: p.name })) || []
+        alternatives: alternatives?.map((p: any) => ({ id: p.id, name: p.name })) || []
       }
     }, { status: 200 })
 
@@ -192,7 +218,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     // Usar transacción para operación atómica
-    const updatedProduct = await prisma.$transaction(async (tx) => {
+    const updatedProduct = await prisma.$transaction(async (tx: any) => {
       // Verificar que el producto existe
       const existingProduct = await tx.product.findUnique({
         where: { id: trimmedId }
