@@ -26,31 +26,41 @@ const ContactContent = () => {
       title: "Email Us",
       details: ["creations.faelight@gmail.com"],
       note: "We reply within 24 hours"
-    },
-    {
-      icon: Phone,
-      title: "Call Us",
-      details: ["+1 (250) 889-9919"],
-      note: "Mon-Fri, 9AM-5PM PST"
     }
   ];
 
   const faqs = [
     {
-      question: "How long does it take to create a custom piece?",
-      answer: "Custom pieces typically take 2-3 weeks to complete, depending on complexity. We'll provide an estimated timeline when you place your order."
+      question: "¿Todos sus productos son hechos a mano?",
+      answer: "Sí, cada pieza de joyería de Faelight Crafts es cuidadosamente hecha a mano usando técnicas tradicionales de macramé. Cada producto es único y refleja la dedicación artesanal en cada detalle."
     },
     {
-      question: "Do you offer international shipping?",
-      answer: "Yes! We ship worldwide. Shipping costs and times vary by location. Contact us for specific rates to your country."
+      question: "¿Aceptan pedidos personalizados?",
+      answer: "¡Por supuesto! Nos encanta crear piezas personalizadas. Contáctanos con tus ideas, colores preferidos y cualquier requisito específico. Los pedidos personalizados suelen tomar 2-3 semanas para completarse."
     },
     {
-      question: "What materials do you use in your jewelry?",
-      answer: "We use high-quality, sustainable materials including cotton cord, natural beads, sterling silver findings, and ethically sourced stones."
+      question: "¿Qué materiales utilizan en sus productos?",
+      answer: "Utilizamos materiales de alta calidad como cordones de algodón, fibras naturales, cuentas de madera y herrajes de plata esterlina. Todos los materiales son cuidadosamente seleccionados por su durabilidad y atractivo estético."
     },
     {
-      question: "Can I visit your studio in Victoria?",
-      answer: "Absolutely! We love meeting customers in person. Please contact us to schedule an appointment, as we work by appointment only."
+      question: "¿Cómo debo cuidar mi joyería de macramé?",
+      answer: "Para mantener tu joyería hermosa, evita mojarla y guárdala en un lugar seco. Para limpiarla, cepilla suavemente con un cepillo suave o paño. Evita químicos fuertes y luz solar directa por períodos prolongados."
+    },
+    {
+      question: "¿Realizan envíos internacionales?",
+      answer: "¡Sí! Enviamos a todo el mundo desde Victoria, Canadá. Los costos y tiempos de envío varían según la ubicación. Contáctanos para obtener tarifas específicas a tu país."
+    },
+    {
+      question: "¿Cuánto tiempo toma el envío?",
+      answer: "Los pedidos generalmente se envían dentro de 3-5 días hábiles. El envío dentro de Canadá toma 5-7 días hábiles, mientras que el envío internacional puede tomar 10-14 días hábiles."
+    },
+    {
+      question: "¿Participan en mercados locales?",
+      answer: "¡Sí! Participamos regularmente en mercados artesanales locales en Victoria. Síguenos en redes sociales o consulta aquí para conocer las próximas fechas y ubicaciones de mercados."
+    },
+    {
+      question: "¿Cada pieza es realmente única?",
+      answer: "Absolutamente. Aunque podemos crear piezas similares, cada producto de Faelight Crafts tiene sus propias características únicas debido a la naturaleza artesanal del proceso de creación. No encontrarás dos piezas exactamente iguales."
     }
   ];
 
@@ -110,7 +120,8 @@ const ContactContent = () => {
       </motion.div>
 
       {/* Contact Info Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="flex justify-center">
+        <div className="w-full max-w-md">
         {contactInfo.map((info, index) => (
           <motion.div 
             key={index}
@@ -136,6 +147,7 @@ const ContactContent = () => {
             </p>
           </motion.div>
         ))}
+        </div>
       </div>
 
       {/* Main Contact Section */}

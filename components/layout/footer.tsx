@@ -1,7 +1,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from 'lucide-react'
+import { Facebook, Instagram, Twitter, Mail, MapPin } from 'lucide-react'
 
 const Footer = () => {
   return (
@@ -64,10 +64,6 @@ const Footer = () => {
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 opacity-80" />
                 <span className="text-sm opacity-90">faelightcrafts@gmail.com</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Phone className="h-4 w-4 opacity-80" />
-                <span className="text-sm opacity-90">+1 (250) 889-9919</span>
               </div>
             </div>
             
