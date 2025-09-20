@@ -46,22 +46,8 @@ const AboutPreview = () => {
               <h2 className="text-4xl lg:text-5xl font-bold mb-6 mt-2" style={{ color: '#000000' }}>
                 Artisan Jewelry from the Heart
               </h2>
-              <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                Welcome to FaeLight Crafts, where every piece tells a story of passion, 
-                creativity, and craftsmanship. Based in beautiful Victoria, Canada, 
-                I'm Julia, and I create handmade macramé jewelry that celebrates 
-                the beauty of natural materials and traditional techniques.
-              </p>
-              <p className="text-gray-600 leading-relaxed mb-6">
-                My journey began with a simple love for creating beautiful things with my hands. 
-                Today, each piece represents hours of careful work, using time-honored 
-                techniques and focusing on quality craftsmanship.
-              </p>
-              <p className="text-gray-600 leading-relaxed">
-                At FaeLight Crafts, we believe jewelry should be more than just an accessory - 
-                it should be a reflection of your unique style and personality. Each piece 
-                is thoughtfully designed and carefully crafted to bring beauty and meaning 
-                to your everyday life.
+              <p className="text-lg text-gray-600 leading-relaxed">
+                Here you'll find handmade treasures inspired by the magic of fantasy worlds. From crochet creatures and jewelry to soaps and unique decorations, every piece is created with love, imagination, and a touch of wonder. My goal is to bring a little sparkle and joy into your everyday life.
               </p>
             </div>
 
