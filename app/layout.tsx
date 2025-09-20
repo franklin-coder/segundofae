@@ -1,6 +1,8 @@
 
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { Berkshire_Swash } from 'next/font/google'
+import { Della_Respira } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import Header from '@/components/layout/header'
@@ -12,6 +14,18 @@ import { AuthProvider } from '@/contexts/auth-context'
 import AdminControls from '@/components/admin/admin-controls'
 
 const inter = Inter({ subsets: ['latin'] })
+
+const berkshireSwash = Berkshire_Swash({ 
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-berkshire-swash'
+})
+
+const dellaRespira = Della_Respira({ 
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-della-respira'
+})
 
 export const metadata: Metadata = {
   title: 'FaeLight Crafts - Artisan Jewelry & Handmade Accessories',
@@ -34,7 +48,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={`${dellaRespira.variable} ${berkshireSwash.variable}`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
