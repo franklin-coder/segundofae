@@ -16,44 +16,36 @@ import { Button } from '@/components/ui/button'
 const FAQPage = () => {
   const faqs = [
     {
-      question: "How are your jewelry pieces made?",
-      answer: "Each piece is handcrafted using traditional macramé techniques. I use high-quality cotton cords and natural materials to create unique, durable jewelry that reflects the beauty of handmade artistry."
+      question: "¿Todos sus productos son hechos a mano?",
+      answer: "Sí, cada pieza de joyería de Faelight Crafts es cuidadosamente hecha a mano usando técnicas tradicionales de macramé. Cada producto es único y refleja la dedicación artesanal en cada detalle."
     },
     {
-      question: "How long does shipping take?",
-      answer: "Orders typically ship within 3-5 business days. Shipping within Canada takes 5-7 business days, while international shipping may take 10-14 business days."
+      question: "¿Aceptan pedidos personalizados?",
+      answer: "¡Por supuesto! Nos encanta crear piezas personalizadas. Contáctanos con tus ideas, colores preferidos y cualquier requisito específico. Los pedidos personalizados suelen tomar 2-3 semanas para completarse."
     },
     {
-      question: "Can I customize a piece?",
-      answer: "Absolutely! I love creating custom pieces. Please contact me with your ideas, preferred colors, and any specific requirements. Custom orders typically take 2-3 weeks to complete."
+      question: "¿Qué materiales utilizan en sus productos?",
+      answer: "Utilizamos materiales de alta calidad como cordones de algodón, fibras naturales, cuentas de madera y herrajes de plata esterlina. Todos los materiales son cuidadosamente seleccionados por su durabilidad y atractivo estético."
     },
     {
-      question: "What materials do you use?",
-      answer: "I primarily use high-quality cotton cords, natural fibers, wooden beads, and sterling silver findings. All materials are carefully selected for their durability and aesthetic appeal."
+      question: "¿Cómo debo cuidar mi joyería de macramé?",
+      answer: "Para mantener tu joyería hermosa, evita mojarla y guárdala en un lugar seco. Para limpiarla, cepilla suavemente con un cepillo suave o paño. Evita químicos fuertes y luz solar directa por períodos prolongados."
     },
     {
-      question: "How do I care for my macramé jewelry?",
-      answer: "To keep your jewelry looking beautiful, avoid getting it wet and store it in a dry place. For cleaning, gently brush with a soft brush or cloth. Avoid harsh chemicals and direct sunlight for extended periods."
+      question: "¿Realizan envíos internacionales?",
+      answer: "¡Sí! Enviamos a todo el mundo desde Victoria, Canadá. Los costos y tiempos de envío varían según la ubicación. Contáctanos para obtener tarifas específicas a tu país."
     },
     {
-      question: "Do you offer returns or exchanges?",
-      answer: "Yes, I accept returns within 14 days of delivery if the item is in original condition. Custom pieces are not returnable unless there's a defect. Please contact me to initiate a return."
+      question: "¿Cuánto tiempo toma el envío?",
+      answer: "Los pedidos generalmente se envían dentro de 3-5 días hábiles. El envío dentro de Canadá toma 5-7 días hábiles, mientras que el envío internacional puede tomar 10-14 días hábiles."
     },
     {
-      question: "Are your pieces suitable for sensitive skin?",
-      answer: "Yes, I use hypoallergenic materials including sterling silver findings and natural cotton cords. However, if you have specific allergies, please let me know before ordering."
+      question: "¿Participan en mercados locales?",
+      answer: "¡Sí! Participamos regularmente en mercados artesanales locales en Victoria. Síguenos en redes sociales o consulta aquí para conocer las próximas fechas y ubicaciones de mercados."
     },
     {
-      question: "How do I determine the right size?",
-      answer: "Most of my necklaces and bracelets are adjustable. For specific sizing questions or if you need a custom size, please don't hesitate to contact me with your measurements."
-    },
-    {
-      question: "Do you participate in local markets?",
-      answer: "Yes! I regularly participate in local artisan markets in Victoria. Follow our social media or check back here for upcoming market dates and locations."
-    },
-    {
-      question: "Can I wholesale your products?",
-      answer: "I do work with select retailers. If you're interested in carrying FaeLight Crafts jewelry in your store, please contact me to discuss wholesale opportunities and requirements."
+      question: "¿Cada pieza es realmente única?",
+      answer: "Absolutamente. Aunque podemos crear piezas similares, cada producto de Faelight Crafts tiene sus propias características únicas debido a la naturaleza artesanal del proceso de creación. No encontrarás dos piezas exactamente iguales."
     }
   ]
 
