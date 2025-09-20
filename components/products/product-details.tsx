@@ -277,48 +277,22 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
           </div>
         </div>
 
-        {/* Product Details Tabs */}
+        {/* Product Details */}
         <div className="border-t pt-6">
-          <Tabs defaultValue="description" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="description" className="cursor-pointer">Description</TabsTrigger>
-              <TabsTrigger value="materials" className="cursor-pointer">Materials</TabsTrigger>
-              <TabsTrigger value="care" className="cursor-pointer">Care</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="description" className="mt-4 space-y-4">
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-medium mb-2">Description</h4>
               <p className="text-gray-600 leading-relaxed">
                 {product.longDescription || product.description}
               </p>
-              {product.dimensions && (
-                <div>
-                  <h4 className="font-medium mb-2">Dimensions</h4>
-                  <p className="text-gray-600">{product.dimensions}</p>
-                </div>
-              )}
-            </TabsContent>
-            
-            <TabsContent value="materials" className="mt-4">
-              {product.materials && product.materials.length > 0 ? (
-                <ul className="space-y-2">
-                  {product.materials.map((material, index) => (
-                    <li key={index} className="flex items-center gap-2 text-gray-600">
-                      <div className="w-1.5 h-1.5 bg-[#0A8E81] rounded-full" />
-                      {material}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-gray-600">Material information coming soon.</p>
-              )}
-            </TabsContent>
-            
-            <TabsContent value="care" className="mt-4">
-              <p className="text-gray-600 leading-relaxed">
-                {product.care_instructions || 'Keep your jewelry looking beautiful with gentle care. Store in a dry place away from direct sunlight. Clean gently with a soft cloth when needed.'}
-              </p>
-            </TabsContent>
-          </Tabs>
+            </div>
+            {product.dimensions && (
+              <div>
+                <h4 className="font-medium mb-2">Dimensions</h4>
+                <p className="text-gray-600">{product.dimensions}</p>
+              </div>
+            )}
+          </div>
         </div>
       </motion.div>
     </div>

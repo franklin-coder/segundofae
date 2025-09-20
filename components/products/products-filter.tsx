@@ -18,7 +18,7 @@ const ProductsFilter = ({ currentCategory }: ProductsFilterProps) => {
   const searchParams = useSearchParams()
   const [priceRange, setPriceRange] = useState([0, 100])
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([])
+
   const [inStockOnly, setInStockOnly] = useState(false)
   const [featuredOnly, setFeaturedOnly] = useState(false)
 
@@ -29,13 +29,7 @@ const ProductsFilter = ({ currentCategory }: ProductsFilterProps) => {
     { id: 'anklets', name: 'Anklets', count: 2 }
   ]
 
-  const materials = [
-    { id: 'cotton-cord', name: 'Cotton Cord', count: 6 },
-    { id: 'natural-beads', name: 'Natural Beads', count: 3 },
-    { id: 'sterling-silver', name: 'Sterling Silver', count: 2 },
-    { id: 'crystal-beads', name: 'Crystal Beads', count: 1 },
-    { id: 'wooden-beads', name: 'Wooden Beads', count: 1 }
-  ]
+
 
   useEffect(() => {
     if (currentCategory) {
@@ -51,17 +45,10 @@ const ProductsFilter = ({ currentCategory }: ProductsFilterProps) => {
     }
   }
 
-  const handleMaterialChange = (materialId: string, checked: boolean) => {
-    if (checked) {
-      setSelectedMaterials(prev => [...prev, materialId])
-    } else {
-      setSelectedMaterials(prev => prev.filter(id => id !== materialId))
-    }
-  }
+
 
   const clearAllFilters = () => {
     setSelectedCategories(currentCategory ? [currentCategory] : [])
-    setSelectedMaterials([])
     setPriceRange([0, 100])
     setInStockOnly(false)
     setFeaturedOnly(false)
@@ -74,9 +61,7 @@ const ProductsFilter = ({ currentCategory }: ProductsFilterProps) => {
       params.append('categories', selectedCategories.join(','))
     }
     
-    if (selectedMaterials.length > 0) {
-      params.append('materials', selectedMaterials.join(','))
-    }
+
     
     if (priceRange[0] > 0 || priceRange[1] < 100) {
       params.append('price_min', priceRange[0].toString())
@@ -173,30 +158,7 @@ const ProductsFilter = ({ currentCategory }: ProductsFilterProps) => {
         </div>
       </div>
 
-      {/* Materials */}
-      <div>
-        <h4 className="font-medium mb-3">Materials</h4>
-        <div className="space-y-2">
-          {materials.map((material) => (
-            <div key={material.id} className="flex items-center space-x-2">
-              <Checkbox
-                id={material.id}
-                checked={selectedMaterials.includes(material.id)}
-                onCheckedChange={(checked) => 
-                  handleMaterialChange(material.id, checked as boolean)
-                }
-              />
-              <label
-                htmlFor={material.id}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1"
-              >
-                {material.name}
-                <span className="text-gray-500 ml-1">({material.count})</span>
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
+
 
       {/* Other Filters */}
       <div>
