@@ -81,7 +81,7 @@ const ProductsFilter = ({ currentCategory }: ProductsFilterProps) => {
     router.push(queryString ? `${basePath}?${queryString}` : basePath)
   }
 
-  const activeFiltersCount = selectedMaterials.length + 
+  const activeFiltersCount = 
     (inStockOnly ? 1 : 0) + 
     (featuredOnly ? 1 : 0) + 
     (priceRange[0] > 0 || priceRange[1] < 100 ? 1 : 0)
