@@ -1,6 +1,6 @@
 // app/api/products/route.ts
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { executeWithCleanup, getPrismaClient } from '@/lib/prisma-safe'
 
 export const dynamic = "force-dynamic"
 
@@ -16,10 +16,11 @@ export async function GET(request: NextRequest) {
 
     console.log(`[API:${requestId}] 🚀 Starting request - category: ${category}, featured: ${featured}, limit: ${limit}`)
 
-    // ✅ Validate database connection first
+    // ✅ Validate database connection first with safe client
     try {
-      await prisma.$connect()
-      console.log(`[API:${requestId}] ✅ Database connection successful`)
+      const safeClient = await getPrismaClient()
+      await safeClient.$connect()
+      console.log(`[API:${requestId}] ✅ Database connection successful with safe client`)
     } catch (dbError) {
       console.error(`[API:${requestId}] ❌ Database connection failed:`, dbError)
       throw new Error(`Database connection failed: ${dbError instanceof Error ? dbError.message : 'Unknown DB error'}`)
@@ -62,15 +63,17 @@ export async function GET(request: NextRequest) {
 
     console.log(`[API:${requestId}] 🔍 Prisma query where:`, JSON.stringify(where, null, 2))
 
-    // ✅ Usar Prisma para obtener productos con timeout
+    // ✅ Usar Prisma seguro para obtener productos con timeout y limpieza automática
     const queryStartTime = Date.now()
     const products = await Promise.race([
-      prisma.product.findMany({
-        where,
-        take: take && take > 0 && take <= 100 ? take : undefined,
-        orderBy: {
-          created_at: 'desc'
-        }
+      executeWithCleanup(async (client) => {
+        return await client.product.findMany({
+          where,
+          take: take && take > 0 && take <= 100 ? take : undefined,
+          orderBy: {
+            created_at: 'desc'
+          }
+        })
       }),
       new Promise((_, reject) => 
         setTimeout(() => reject(new Error('Query timeout after 10 seconds')), 10000)
@@ -128,6 +131,12 @@ export async function GET(request: NextRequest) {
     if (error && typeof error === 'object' && 'code' in error) {
       console.error(`[API:${requestId}] Prisma error code:`, (error as any).code)
       console.error(`[API:${requestId}] Prisma error meta:`, (error as any).meta)
+      
+      // Detectar específicamente el error de prepared statements
+      if ((error as any).code === '42P05') {
+        console.error(`[API:${requestId}] 🚨 DETECTED: Prepared statement already exists error`)
+        console.error(`[API:${requestId}] 🔧 This should have been handled by executeWithCleanup`)
+      }
     }
 
     return NextResponse.json({
