@@ -20,6 +20,9 @@ const ProductsGrid = ({ category }: ProductsGridProps) => {
   const [sortBy, setSortBy] = useState<'name' | 'price-low' | 'price-high' | 'newest'>('newest')
 
   const loadProducts = useCallback(async () => {
+    const requestId = Math.random().toString(36).substring(7)
+    const startTime = Date.now()
+    
     try {
       // Reset states at the beginning of each load
       setLoading(true)
@@ -32,28 +35,82 @@ const ProductsGrid = ({ category }: ProductsGridProps) => {
         params.append('category', category)
       }
       
-      console.log(`Loading products for category: ${category || 'all'}`)
+      console.log(`[Grid:${requestId}] 🚀 Loading products for category: ${category || 'all'}`)
       
       const response = await fetch(`/api/products?${params}`, {
         // Add cache busting to prevent stale data
         cache: 'no-store',
         headers: {
           'Cache-Control': 'no-cache',
+          'Accept': 'application/json',
         }
       })
       
+      const responseTime = Date.now() - startTime
+      console.log(`[Grid:${requestId}] 📡 Response received in ${responseTime}ms - Status: ${response.status}`)
+      
       if (response?.ok) {
         const data = await response.json()
-        console.log(`Loaded ${data?.products?.length || 0} products for category: ${category || 'all'}`)
-        setProducts(data?.products || [])
+        console.log(`[Grid:${requestId}] ✅ Loaded ${data?.products?.length || 0} products for category: ${category || 'all'}`)
+        
+        // Enhanced logging for debugging
+        if (data?.query) {
+          console.log(`[Grid:${requestId}] 🔍 API Query info:`, data.query)
+        }
+        
+        if (data?.products && Array.isArray(data.products)) {
+          setProducts(data.products)
+          console.log(`[Grid:${requestId}] 📦 Products set successfully`)
+        } else {
+          console.warn(`[Grid:${requestId}] ⚠️ Invalid products data received:`, data)
+          setProducts([])
+        }
       } else {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+        // Enhanced error handling for different status codes
+        let errorMessage = `HTTP ${response.status}: ${response.statusText}`
+        
+        try {
+          const errorData = await response.json()
+          if (errorData?.details) {
+            errorMessage += ` - ${errorData.details}`
+          }
+          console.error(`[Grid:${requestId}] ❌ API Error Response:`, errorData)
+        } catch (jsonError) {
+          console.error(`[Grid:${requestId}] ❌ Failed to parse error response:`, jsonError)
+        }
+        
+        throw new Error(errorMessage)
       }
     } catch (error) {
-      console.error('Error loading products:', error)
-      setError(error instanceof Error ? error.message : 'Failed to load products')
+      const totalTime = Date.now() - startTime
+      console.error(`[Grid:${requestId}] ❌ Error after ${totalTime}ms:`, error)
+      
+      // Enhanced error logging
+      if (error instanceof Error) {
+        console.error(`[Grid:${requestId}] Error name:`, error.name)
+        console.error(`[Grid:${requestId}] Error message:`, error.message)
+        if (error.stack) {
+          console.error(`[Grid:${requestId}] Error stack:`, error.stack)
+        }
+      }
+      
+      // Set user-friendly error message
+      let userErrorMessage = 'Failed to load products'
+      if (error instanceof Error) {
+        if (error.message.includes('HTTP 500')) {
+          userErrorMessage = 'Server error occurred. Please try again.'
+        } else if (error.message.includes('Failed to fetch')) {
+          userErrorMessage = 'Network error. Please check your connection.'
+        } else {
+          userErrorMessage = error.message
+        }
+      }
+      
+      setError(userErrorMessage)
       setProducts([])
     } finally {
+      const totalTime = Date.now() - startTime
+      console.log(`[Grid:${requestId}] 🏁 Request completed in ${totalTime}ms`)
       setLoading(false)
     }
   }, [category])
