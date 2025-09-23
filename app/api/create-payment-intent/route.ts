@@ -1,14 +1,11 @@
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getStripeServer } from '@/lib/stripe'
+import { stripe } from '@/lib/stripe'
 
 export const dynamic = "force-dynamic"
 
 export async function POST(request: NextRequest) {
   try {
-    // Obtener la instancia de Stripe de forma segura
-    const stripe = getStripeServer()
-    
     const body = await request.json()
     const { amount, currency = 'cad', metadata = {}, customer_email, items = [] } = body
 
@@ -100,13 +97,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         error: 'Network error. Please check your connection and try again.'
       }, { status: 503 })
-    }
-
-    // Error específico de configuración
-    if (error.message?.includes('apiKey') || error.message?.includes('authenticator')) {
-      return NextResponse.json({
-        error: 'Payment service configuration error. Please contact support.'
-      }, { status: 500 })
     }
 
     return NextResponse.json({

@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
+  distDir: process.env.NEXT_DIST_DIR || '.next',
+  output: process.env.NEXT_OUTPUT_MODE,
+  eslint: {
+    ignoreDuringBuilds: true,
   },
-  images: {
-    domains: ['images.unsplash.com', 'via.placeholder.com'],
+  typescript: {
+    ignoreBuildErrors: false,
   },
+  images: { unoptimized: true },
 };
 
 module.exports = nextConfig;
