@@ -76,9 +76,28 @@ export const validateConfig = () => {
   ]
 
   const missingVars = requiredEnvVars.filter(varName => !process.env[varName])
+  const invalidVars: string[] = []
+
+  // Check for placeholder/temporary values
+  if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.includes('pk_test_temp')) {
+    invalidVars.push('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is using a temporary/placeholder value')
+  }
+
+  // Validate Stripe key formats
+  if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY && !process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY.startsWith('pk_')) {
+    invalidVars.push('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY does not appear to be a valid Stripe publishable key')
+  }
+
+  if (process.env.STRIPE_SECRET_KEY && !process.env.STRIPE_SECRET_KEY.startsWith('sk_')) {
+    invalidVars.push('STRIPE_SECRET_KEY does not appear to be a valid Stripe secret key')
+  }
   
   if (missingVars.length > 0) {
     throw new Error(`Missing required environment variables: ${missingVars.join(', ')}`)
+  }
+
+  if (invalidVars.length > 0) {
+    throw new Error(`Invalid environment variables: ${invalidVars.join(', ')}`)
   }
 }
 
