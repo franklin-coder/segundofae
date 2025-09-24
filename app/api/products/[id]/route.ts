@@ -170,7 +170,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         where: { id: trimmedId },
         data: {
           ...updateData,
-          updated_at: new Date()
+          updatedAt: new Date()
         }
       })
     })
