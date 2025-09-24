@@ -23,151 +23,46 @@ interface ProductPageProps {
   }
 }
 
-// ✅ Función mejorada con búsqueda flexible y múltiples criterios + logging mejorado
+// Función simplificada para obtener producto
 async function getProduct(id: string, category?: string) {
   const startTime = Date.now()
   
   try {
-    console.log(`[PRODUCT_SEARCH] Starting search for ID: "${id}", Category: "${category}"`)
+    console.log(`[PRODUCT_SEARCH] Searching for product ID: "${id}", Category: "${category}"`)
     
-    // Estrategia 1: Búsqueda directa por ID
-    let product = await prisma.product.findUnique({
-      where: { id }
+    // Búsqueda directa por ID
+    const product = await prisma.product.findUnique({
+      where: { id: id.trim() }
     })
 
-    if (product) {
-      console.log(`[PRODUCT_SEARCH] Direct match found: ${product.id} (${Date.now() - startTime}ms)`)
-      
-      // Obtener productos relacionados
-      const relatedProducts = await prisma.product.findMany({
-        where: {
-          category: product.category,
-          id: { not: product.id }
-        },
-        take: 4
-      })
-
-      return {
-        success: true,
-        product,
-        relatedProducts,
-        searchStrategy: 'direct'
-      }
-    }
-
-    console.log(`[PRODUCT_SEARCH] No direct match, trying flexible search...`)
-
-    // Estrategia 2: Si no se encuentra, buscar por ID con diferentes formatos
-    const productsWithSimilarId = await prisma.product.findMany({
-      where: {
-        OR: [
-          { id: { contains: id, mode: 'insensitive' } },
-          { id: { startsWith: id, mode: 'insensitive' } },
-          { id: { endsWith: id, mode: 'insensitive' } }
-        ]
-      },
-      take: 10
-    })
-
-    console.log(`[PRODUCT_SEARCH] Similar ID search found ${productsWithSimilarId.length} products`)
-
-    if (productsWithSimilarId.length > 0) {
-      // Priorizar productos de la misma categoría si se proporciona
-      if (category && category !== 'all') {
-        product = productsWithSimilarId.find((p: any) => p.category === category) || productsWithSimilarId[0]
-        console.log(`[PRODUCT_SEARCH] Category priority applied, selected: ${product.id}`)
-      } else {
-        product = productsWithSimilarId[0]
-        console.log(`[PRODUCT_SEARCH] No category filter, selected first: ${product.id}`)
-      }
-    }
-
-    // Estrategia 3: Si aún no se encuentra, buscar por nombre similar
     if (!product) {
-      console.log(`[PRODUCT_SEARCH] Trying name-based search...`)
-      
-      // Decodificar el ID por si contiene caracteres especiales
-      const decodedId = decodeURIComponent(id)
-      const searchTerms = decodedId.split(/[-_\s]+/).filter(term => term.length > 2)
-      
-      console.log(`[PRODUCT_SEARCH] Search terms extracted: ${searchTerms.join(', ')}`)
-      
-      if (searchTerms.length > 0) {
-        const nameSearchProducts = await prisma.product.findMany({
-          where: {
-            OR: searchTerms.map(term => ({
-              name: { contains: term, mode: 'insensitive' as const }
-            }))
-          },
-          take: 10
-        })
-
-        console.log(`[PRODUCT_SEARCH] Name search found ${nameSearchProducts.length} products`)
-
-        if (nameSearchProducts.length > 0) {
-          // Priorizar productos de la misma categoría
-          if (category && category !== 'all') {
-            product = nameSearchProducts.find((p: any) => p.category === category) || nameSearchProducts[0]
-          } else {
-            product = nameSearchProducts[0]
-          }
-          console.log(`[PRODUCT_SEARCH] Name search selected: ${product.id}`)
-        }
-      }
-    }
-
-    // Estrategia 4: Como último recurso, buscar por categoría y tomar el primero
-    if (!product && category && category !== 'all') {
-      console.log(`[PRODUCT_SEARCH] Last resort: searching by category "${category}"`)
-      
-      const categoryProducts = await prisma.product.findMany({
-        where: { category },
-        take: 1
-      })
-      
-      if (categoryProducts.length > 0) {
-        product = categoryProducts[0]
-        console.log(`[PRODUCT_SEARCH] Category fallback selected: ${product.id}`)
-      }
-    }
-
-    if (!product) {
-      console.log(`[PRODUCT_SEARCH] No product found after all strategies (${Date.now() - startTime}ms)`)
-      
-      // Log de todos los productos disponibles para debugging
-      const allProducts = await prisma.product.findMany({
-        select: { id: true, name: true, category: true },
-        take: 20
-      })
-      console.log(`[PRODUCT_SEARCH] Available products:`, allProducts.map((p: any) => `${p.id} (${p.category})`))
-      
+      console.log(`[PRODUCT_SEARCH] Product not found: "${id}" (${Date.now() - startTime}ms)`)
       return null
     }
 
+    console.log(`[PRODUCT_SEARCH] Product found: ${product.id} (${Date.now() - startTime}ms)`)
+    
     // Obtener productos relacionados
     const relatedProducts = await prisma.product.findMany({
       where: {
         category: product.category,
         id: { not: product.id }
       },
-      take: 4
+      take: 4,
+      orderBy: {
+        created_at: 'desc'
+      }
     })
-
-    console.log(`[PRODUCT_SEARCH] Success! Found: ${product.id}, Strategy: fallback (${Date.now() - startTime}ms)`)
 
     return {
       success: true,
       product,
       relatedProducts,
-      searchStrategy: 'fallback'
+      searchStrategy: 'direct'
     }
   } catch (error) {
     console.error(`[PRODUCT_SEARCH] Error fetching product (${Date.now() - startTime}ms):`, error)
-    
-    // Log adicional para debugging en producción
     console.error(`[PRODUCT_SEARCH] Search params:`, { id, category })
-    console.error(`[PRODUCT_SEARCH] Database URL configured:`, !!process.env.DATABASE_URL)
-    
     return null
   }
 }
@@ -214,8 +109,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const { product, relatedProducts, searchStrategy } = productData
 
   // Log para debugging en desarrollo
-  if (process.env.NODE_ENV === 'development' && searchStrategy === 'fallback') {
-    console.log(`Product found using fallback strategy for ID: ${id}, found: ${product.id}`)
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`Product page rendered for ID: ${id}, found: ${product.id}`)
   }
 
   return (
@@ -244,14 +139,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </BreadcrumbList>
         </Breadcrumb>
 
-        {/* Mensaje informativo si se usó búsqueda de fallback */}
-        {searchStrategy === 'fallback' && process.env.NODE_ENV === 'development' && (
-          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
-            <p className="text-sm text-yellow-800">
-              Note: Product found using flexible search (original ID: {id})
-            </p>
-          </div>
-        )}
+
 
         {/* Product Details */}
         <Suspense fallback={
