@@ -60,17 +60,21 @@ const ProductCard = ({ product, onProductDeleted }: ProductCardProps) => {
   const getProductUrl = () => {
     try {
       // Asegurar que tenemos datos válidos
-      const category = product.category || 'products'
-      const id = product.id
+      const category = product?.category || 'products'
+      const id = product?.id
       
-      if (!id) {
-        console.warn('ProductCard: Missing product ID', product)
+      if (!id || typeof id !== 'string') {
+        console.warn('ProductCard: Missing or invalid product ID', product)
         return '/products'
       }
       
+      // Validar que la categoría es válida
+      const validCategories = ['necklaces', 'earrings', 'bracelets', 'and-more', 'anklets']
+      const safeCategory = validCategories.includes(category) ? category : 'products'
+      
       // Codificar el ID para manejar caracteres especiales
-      const encodedId = encodeURIComponent(id)
-      return `/products/${category}/${encodedId}`
+      const encodedId = encodeURIComponent(id.trim())
+      return safeCategory === 'products' ? '/products' : `/products/${safeCategory}/${encodedId}`
     } catch (error) {
       console.error('ProductCard: Error generating URL', error, product)
       return '/products'

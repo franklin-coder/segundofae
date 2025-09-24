@@ -11,90 +11,28 @@ interface RouteParams {
   }
 }
 
-// Función auxiliar para búsqueda flexible de productos con logging mejorado
-async function findProductFlexibly(id: string) {
+// Función simplificada para búsqueda de productos
+async function findProduct(id: string) {
   const startTime = Date.now()
   
   try {
-    console.log(`[API_PRODUCT_SEARCH] Starting flexible search for ID: "${id}"`)
+    console.log(`[API_PRODUCT_SEARCH] Searching for product ID: "${id}"`)
     
-    // Estrategia 1: Búsqueda directa por ID
-    let product = await prisma.product.findUnique({
-      where: { id }
+    // Búsqueda directa por ID (más confiable)
+    const product = await prisma.product.findUnique({
+      where: { id: id.trim() }
     })
 
     if (product) {
-      console.log(`[API_PRODUCT_SEARCH] Direct match found: ${product.id} (${Date.now() - startTime}ms)`)
+      console.log(`[API_PRODUCT_SEARCH] Product found: ${product.id} (${Date.now() - startTime}ms)`)
       return { product, searchStrategy: 'direct' }
     }
 
-    console.log(`[API_PRODUCT_SEARCH] No direct match, trying flexible search...`)
-
-    // Estrategia 2: Búsqueda por ID con diferentes formatos
-    const productsWithSimilarId = await prisma.product.findMany({
-      where: {
-        OR: [
-          { id: { contains: id, mode: 'insensitive' } },
-          { id: { startsWith: id, mode: 'insensitive' } },
-          { id: { endsWith: id, mode: 'insensitive' } }
-        ]
-      },
-      take: 10
-    })
-
-    console.log(`[API_PRODUCT_SEARCH] Similar ID search found ${productsWithSimilarId.length} products`)
-
-    if (productsWithSimilarId.length > 0) {
-      console.log(`[API_PRODUCT_SEARCH] Similar ID matches:`, productsWithSimilarId.map((p: any) => p.id))
-      return { 
-        product: productsWithSimilarId[0], 
-        searchStrategy: 'similar_id',
-        alternatives: productsWithSimilarId.slice(1)
-      }
-    }
-
-    // Estrategia 3: Búsqueda por nombre similar
-    const decodedId = decodeURIComponent(id)
-    const searchTerms = decodedId.split(/[-_\s]+/).filter(term => term.length > 2)
-    
-    console.log(`[API_PRODUCT_SEARCH] Search terms extracted: ${searchTerms.join(', ')}`)
-    
-    if (searchTerms.length > 0) {
-      const nameSearchProducts = await prisma.product.findMany({
-        where: {
-          OR: searchTerms.map(term => ({
-            name: { contains: term, mode: 'insensitive' as const }
-          }))
-        },
-        take: 10
-      })
-
-      console.log(`[API_PRODUCT_SEARCH] Name search found ${nameSearchProducts.length} products`)
-
-      if (nameSearchProducts.length > 0) {
-        console.log(`[API_PRODUCT_SEARCH] Name search matches:`, nameSearchProducts.map((p: any) => `${p.id} (${p.name})`))
-        return { 
-          product: nameSearchProducts[0], 
-          searchStrategy: 'name_search',
-          alternatives: nameSearchProducts.slice(1)
-        }
-      }
-    }
-
-    console.log(`[API_PRODUCT_SEARCH] No product found after all strategies (${Date.now() - startTime}ms)`)
-    
-    // Log de productos disponibles para debugging
-    const allProducts = await prisma.product.findMany({
-      select: { id: true, name: true, category: true },
-      take: 20
-    })
-    console.log(`[API_PRODUCT_SEARCH] Available products:`, allProducts.map((p: any) => `${p.id} (${p.category})`))
-
+    console.log(`[API_PRODUCT_SEARCH] Product not found: "${id}" (${Date.now() - startTime}ms)`)
     return null
   } catch (error) {
-    console.error(`[API_PRODUCT_SEARCH] Error in flexible product search (${Date.now() - startTime}ms):`, error)
+    console.error(`[API_PRODUCT_SEARCH] Error searching for product (${Date.now() - startTime}ms):`, error)
     console.error(`[API_PRODUCT_SEARCH] Search ID:`, id)
-    console.error(`[API_PRODUCT_SEARCH] Database URL configured:`, !!process.env.DATABASE_URL)
     return null
   }
 }
@@ -113,8 +51,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     const trimmedId = id.trim()
 
-    // Buscar producto usando estrategia flexible
-    const searchResult = await findProductFlexibly(trimmedId)
+    // Buscar producto
+    const searchResult = await findProduct(trimmedId)
 
     if (!searchResult?.product) {
       return NextResponse.json({
@@ -124,7 +62,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       }, { status: 404 })
     }
 
-    const { product, searchStrategy, alternatives } = searchResult
+    const { product, searchStrategy } = searchResult
 
     // Obtener productos relacionados (misma categoría, excluyendo el actual)
     const relatedProducts = await prisma.product.findMany({
@@ -150,8 +88,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       meta: {
         searchStrategy,
         originalId: trimmedId,
-        foundId: product.id,
-        alternatives: alternatives?.map((p: any) => ({ id: p.id, name: p.name })) || []
+        foundId: product.id
       }
     }, { status: 200 })
 

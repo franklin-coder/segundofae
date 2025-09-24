@@ -46,40 +46,28 @@ const ProductsGrid = ({ category }: ProductsGridProps) => {
         }
       })
       
+      // Check if response is ok before trying to parse JSON
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+      
       const responseTime = Date.now() - startTime
       console.log(`[Grid:${requestId}] 📡 Response received in ${responseTime}ms - Status: ${response.status}`)
       
-      if (response?.ok) {
-        const data = await response.json()
-        console.log(`[Grid:${requestId}] ✅ Loaded ${data?.products?.length || 0} products for category: ${category || 'all'}`)
-        
-        // Enhanced logging for debugging
-        if (data?.query) {
-          console.log(`[Grid:${requestId}] 🔍 API Query info:`, data.query)
-        }
-        
-        if (data?.products && Array.isArray(data.products)) {
-          setProducts(data.products)
-          console.log(`[Grid:${requestId}] 📦 Products set successfully`)
-        } else {
-          console.warn(`[Grid:${requestId}] ⚠️ Invalid products data received:`, data)
-          setProducts([])
-        }
+      const data = await response.json()
+      console.log(`[Grid:${requestId}] ✅ Loaded ${data?.products?.length || 0} products for category: ${category || 'all'}`)
+      
+      // Enhanced logging for debugging
+      if (data?.query) {
+        console.log(`[Grid:${requestId}] 🔍 API Query info:`, data.query)
+      }
+      
+      if (data?.products && Array.isArray(data.products)) {
+        setProducts(data.products)
+        console.log(`[Grid:${requestId}] 📦 Products set successfully`)
       } else {
-        // Enhanced error handling for different status codes
-        let errorMessage = `HTTP ${response.status}: ${response.statusText}`
-        
-        try {
-          const errorData = await response.json()
-          if (errorData?.details) {
-            errorMessage += ` - ${errorData.details}`
-          }
-          console.error(`[Grid:${requestId}] ❌ API Error Response:`, errorData)
-        } catch (jsonError) {
-          console.error(`[Grid:${requestId}] ❌ Failed to parse error response:`, jsonError)
-        }
-        
-        throw new Error(errorMessage)
+        console.warn(`[Grid:${requestId}] ⚠️ Invalid products data received:`, data)
+        setProducts([])
       }
     } catch (error) {
       const totalTime = Date.now() - startTime
