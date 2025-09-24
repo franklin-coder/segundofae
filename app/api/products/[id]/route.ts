@@ -72,7 +72,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       },
       take: 4,
       orderBy: {
-        created_at: 'desc'
+        createdAt: 'desc'
       }
     })
 
