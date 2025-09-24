@@ -31,11 +31,11 @@ export async function GET(request: NextRequest) {
     if (category && category !== 'all') {
       // Handle category mapping for URL-friendly names
       const categoryMap: { [key: string]: string } = {
-        'and-more': 'anklets', // Map URL-friendly name to database value
+        'and-more': 'and-more', // Keep consistent with frontend
         'necklaces': 'necklaces',
         'earrings': 'earrings',
         'bracelets': 'bracelets',
-        'anklets': 'anklets' // Direct mapping for anklets
+        'anklets': 'anklets'
       }
       
       const mappedCategory = categoryMap[category] || category
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
       console.log(`[API:${requestId}] 🔄 Mapped category '${category}' to '${mappedCategory}'`)
       
       // Validate that the mapped category is valid
-      const validCategories = ['necklaces', 'earrings', 'bracelets', 'anklets']
+      const validCategories = ['necklaces', 'earrings', 'bracelets', 'and-more', 'anklets']
       if (!validCategories.includes(mappedCategory)) {
         console.warn(`[API:${requestId}] ⚠️ Invalid category '${mappedCategory}', proceeding anyway`)
       }
@@ -130,12 +130,17 @@ export async function GET(request: NextRequest) {
       console.error(`[API:${requestId}] Prisma error meta:`, (error as any).meta)
     }
 
+    // En producción, no exponer detalles internos del error
+    const errorMessage = process.env.NODE_ENV === 'development' 
+      ? (error instanceof Error ? error.message : 'Unknown error')
+      : 'Failed to fetch products'
+    
     return NextResponse.json({
       success: false,
       error: 'Failed to fetch products',
       products: [],
       total: 0,
-      details: error instanceof Error ? error.message : 'Unknown error',
+      details: errorMessage,
       requestId,
       timestamp: new Date().toISOString(),
       totalTime: `${totalTime}ms`
