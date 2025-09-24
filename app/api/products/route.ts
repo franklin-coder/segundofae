@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
         where,
         take: take && take > 0 && take <= 100 ? take : undefined,
         orderBy: {
-          created_at: 'desc'
+          createdAt: 'desc'
         }
       }),
       new Promise((_, reject) => 
