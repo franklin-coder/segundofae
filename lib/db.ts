@@ -63,7 +63,7 @@ export const getProducts = async (options?: {
       take: options?.limit,
       skip: options?.offset,
       orderBy: {
-        createdAt: 'desc'
+        created_at: 'desc'  // ✅ Correcto
       }
     })
   })
@@ -91,7 +91,7 @@ export const getFeaturedProducts = async (limit = 8) => {
       where: { featured: true },
       take: limit,
       orderBy: {
-        createdAt: 'desc'
+        created_at: 'desc'  // ✅ CORREGIDO
       }
     })
   })
@@ -103,7 +103,7 @@ export const getProductsByCategory = async (category: string, limit?: number) =>
       where: { category },
       take: limit,
       orderBy: {
-        createdAt: 'desc'
+        created_at: 'desc'  // ✅ CORREGIDO
       }
     })
   })
@@ -121,7 +121,7 @@ export const searchProducts = async (query: string, limit = 20) => {
       },
       take: limit,
       orderBy: {
-        createdAt: 'desc'
+        created_at: 'desc'  // ✅ CORREGIDO
       }
     })
   })
