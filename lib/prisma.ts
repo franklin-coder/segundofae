@@ -20,13 +20,6 @@ const createPrismaClient = () => {
       },
     },
     log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
-    // Configuración específica para serverless
-    __internal: {
-      engine: {
-        // Deshabilitar prepared statements completamente
-        enableRawQueries: false,
-      },
-    },
   })
 }
 
