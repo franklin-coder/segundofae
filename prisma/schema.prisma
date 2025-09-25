@@ -1,21 +1,19 @@
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
-  // Optimizaciones para serverless
+  provider        = "prisma-client-js"
   previewFeatures = ["jsonProtocol"]
-  engineType = "binary"
+  binaryTargets   = ["native", "linux-musl-arm64-openssl-3.0.x"]
+  engineType      = "binary"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  // Configuración específica para evitar prepared statements
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model Product {
-  id                String   @id @default(cuid())
-  sku               String?  @unique
+  id                String   @id @default(cuid())  // ✅ CORREGIDO: Auto-genera ID
+  sku               String?
   name              String
   description       String
   longDescription   String?
@@ -23,13 +21,10 @@ model Product {
   price             Float
   images            String[]
   featured          Boolean  @default(false)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  // Índices optimizados para queries comunes
-  @@index([category])
-  @@index([featured])
-  @@index([createdAt])
-  @@index([category, featured])
-  @@map("products")
+  inStock           Boolean  @default(true)
+  materials         String[]
+  dimensions        String?
+  care_instructions String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt            // ✅ CORREGIDO: Auto-actualiza
 }
