@@ -72,7 +72,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       },
       take: 4,
       orderBy: {
-        createdAt: 'desc'
+       created_at: 'desc'  // ✅ Correcto
       }
     })
 
