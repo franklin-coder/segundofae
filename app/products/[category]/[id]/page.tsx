@@ -79,20 +79,20 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
   const product = productData.product
 
-  return {
+return {
     title: `${product.name} - FaeLight Crafts | Handmade Jewelry`,
     description: product.description || `Discover ${product.name} in our ${product.category} collection`,
     openGraph: {
       title: product.name,
       description: product.description || `Beautiful handmade ${product.category}`,
-      images: product.image_url ? [product.image_url] : [], // ✅ CORREGIDO
+      images: product.images || [], // ✅ CORREGIDO
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
       title: product.name,
       description: product.description || `Beautiful handmade ${product.category}`,
-      images: product.image_url ? [product.image_url] : [], // ✅ CORREGIDO
+      images: product.images || [], // ✅ CORREGIDO
     }
   }
 }
@@ -137,6 +137,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
+
+
 
         {/* Product Details */}
         <Suspense fallback={
