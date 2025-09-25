@@ -1,4 +1,3 @@
-
 // app/products/[category]/[id]/page.tsx
 import { Suspense } from 'react'
 import { prisma } from '@/lib/prisma'
@@ -86,14 +85,14 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     openGraph: {
       title: product.name,
       description: product.description || `Beautiful handmade ${product.category}`,
-      images: product.images && product.images.length > 0 ? product.images : [],
+      images: product.image_url ? [product.image_url] : [], // ✅ CORREGIDO
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
       title: product.name,
       description: product.description || `Beautiful handmade ${product.category}`,
-      images: product.images && product.images.length > 0 ? product.images : [],
+      images: product.image_url ? [product.image_url] : [], // ✅ CORREGIDO
     }
   }
 }
@@ -138,8 +137,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-
-
 
         {/* Product Details */}
         <Suspense fallback={
