@@ -36,12 +36,7 @@ export const validateStripeEnvironment = () => {
   }
 }
 
-// Validate on module load in development
-if (process.env.NODE_ENV === 'development') {
-  try {
-    validateStripeEnvironment()
-    console.log('✅ Stripe environment variables validated successfully')
-  } catch (error) {
-    console.error('❌ Stripe environment validation failed:', error)
-  }
-}
+// ❌ ELIMINÉ ESTAS LÍNEAS QUE CAUSABAN EL PROBLEMA:
+// if (process.env.NODE_ENV === 'development') {
+//   validateStripeEnvironment()
+// }
