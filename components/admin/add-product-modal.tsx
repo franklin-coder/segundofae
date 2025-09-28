@@ -285,16 +285,40 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
       // Preparar datos del producto (sin ID manual - Prisma lo generará)
       let finalImages: string[] = []
       
-      if (imageInputMode === 'upload' && imageFiles.length > 0) {
-        // TODO: Aquí se implementaría la subida de archivos al servidor
-        // Por ahora, convertimos a base64 o usamos un servicio de almacenamiento
-        // Para esta implementación, usaremos las URLs de preview temporalmente
-        finalImages = imagePreviews
-        toast('File upload functionality needs server implementation')
-      } else {
-        finalImages = images.filter(img => img.trim() !== '')
-      }
-
+     if (imageInputMode === 'upload' && imageFiles.length > 0) {
+  console.log(`[PRODUCT_MODAL] Uploading ${imageFiles.length} files to server...`)
+  
+  // Crear FormData para enviar archivos
+  const uploadFormData = new FormData()
+  imageFiles.forEach(file => {
+    uploadFormData.append('files', file)
+  })
+  
+  // Subir archivos al servidor
+  const uploadResponse = await fetch('/api/upload', {
+    method: 'POST',
+    body: uploadFormData,
+  })
+  
+  if (!uploadResponse.ok) {
+    const uploadError = await uploadResponse.text()
+    console.error('[PRODUCT_MODAL] Upload failed:', uploadError)
+    throw new Error(`Failed to upload images: ${uploadError}`)
+  }
+  
+  const uploadResult = await uploadResponse.json()
+  
+  if (!uploadResult.success) {
+    console.error('[PRODUCT_MODAL] Upload result error:', uploadResult.error)
+    throw new Error(`Upload failed: ${uploadResult.error}`)
+  }
+  
+  finalImages = uploadResult.urls
+  console.log(`[PRODUCT_MODAL] Successfully uploaded ${finalImages.length} images`)
+  toast.success(`${finalImages.length} images uploaded successfully!`)
+} else {
+  finalImages = images.filter(img => img.trim() !== '')
+}
       const productData = {
         name: formData.name.trim(),
         price: parseFloat(formData.price),
