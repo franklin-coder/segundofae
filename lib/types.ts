@@ -1,18 +1,25 @@
+
 // Tipos básicos para el e-commerce
 
 export interface Product {
   id: string | number
+  sku?: string
   name: string
   description?: string
+  longDescription?: string
   price: number
   image?: string
   images?: string[]
   category: string
   subcategory?: string
   in_stock?: boolean
+  inStock?: boolean
   featured?: boolean
-  created_at?: string
-  updated_at?: string
+  materials?: string[]
+  dimensions?: string
+  care_instructions?: string
+  created_at?: string | Date
+  updated_at?: string | Date
 }
 
 export interface Category {
@@ -30,6 +37,17 @@ export interface Subcategory {
   description: string
   apiValue: string
   category: string
+}
+
+export interface CartItem {
+  id: string
+  product: Product
+  quantity: number
+}
+
+export interface Cart {
+  items: CartItem[]
+  total: number
 }
 
 // Tipos para filtros

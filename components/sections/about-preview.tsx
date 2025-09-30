@@ -1,61 +1,32 @@
 
-"use client"
-
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import { Button } from '@/components/ui/button'
-import { Heart, Leaf, Users, Award } from 'lucide-react'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
-const AboutPreview = () => {
-
+export default function AboutPreview() {
   return (
-    <section className="py-20 bg-white">
-      <div className="container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Image Side */}
-          <motion.div 
-            className="relative"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
-              <Image
-                src="https://i.etsystatic.com/58229756/r/il/f03e2c/6844052318/il_794xN.6844052318_d3ni.jpg"
-                alt="FaeLight Crafts artisan at work"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
-
-          </motion.div>
-
-          {/* Content Side */}
-          <motion.div 
-            className="space-y-8"
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <div id="about">
-              <span className="text-[#0A8E81] font-medium text-lg">About FaeLight Crafts</span>
-              <h2 className="text-4xl lg:text-5xl font-bold mb-6 mt-2" style={{ color: '#000000' }}>
-                Artisan Jewelry from the Heart
-              </h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Here you'll find handmade treasures inspired by the magic of fantasy worlds. From crochet creatures and jewelry to soaps and unique decorations, every piece is created with love, imagination, and a touch of wonder. My goal is to bring a little sparkle and joy into your everyday life.
-              </p>
-            </div>
-
-          </motion.div>
+    <section className="py-16 lg:py-24 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gray-900">
+            Crafted with Love in Victoria
+          </h2>
+          <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+            Every piece at FaeLight Crafts is handmade with passion and precision. 
+            From selecting the finest materials to the final finishing touches, 
+            we pour our heart into creating jewelry that tells your unique story. 
+            Based in beautiful Victoria, Canada, we draw inspiration from the 
+            natural beauty that surrounds us.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild size="lg">
+              <Link href="/about">Read Our Story</Link>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <Link href="/contact">Get in Touch</Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>
   )
 }
-
-export default AboutPreview

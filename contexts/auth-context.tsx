@@ -1,64 +1,23 @@
 
-"use client"
+'use client'
 
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, ReactNode } from 'react'
 
-interface AuthContextType {
-  isAdmin: boolean
-  login: (username: string, password: string) => boolean
-  logout: () => void
-  adminUser: string | null
+interface AuthState {
+  isAuthenticated: boolean
+  user: null
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const AuthContext = createContext<AuthState | null>(null)
 
-// Credenciales de administrador (en producción esto debería estar en variables de entorno)
-const ADMIN_CREDENTIALS = {
-  username: 'admin',
-  password: 'faelight2024'
-}
-
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [adminUser, setAdminUser] = useState<string | null>(null)
-
-  // Verificar si hay una sesión guardada
-  useEffect(() => {
-    const savedAuth = localStorage.getItem('faelight_admin')
-    if (savedAuth) {
-      const authData = JSON.parse(savedAuth)
-      if (authData.isAdmin && authData.adminUser) {
-        setIsAdmin(true)
-        setAdminUser(authData.adminUser)
-      }
-    }
-  }, [])
-
-  const login = (username: string, password: string): boolean => {
-    if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-      setIsAdmin(true)
-      setAdminUser(username)
-      
-      // Guardar en localStorage
-      localStorage.setItem('faelight_admin', JSON.stringify({
-        isAdmin: true,
-        adminUser: username,
-        loginTime: new Date().toISOString()
-      }))
-      
-      return true
-    }
-    return false
-  }
-
-  const logout = () => {
-    setIsAdmin(false)
-    setAdminUser(null)
-    localStorage.removeItem('faelight_admin')
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const authState: AuthState = {
+    isAuthenticated: false,
+    user: null
   }
 
   return (
-    <AuthContext.Provider value={{ isAdmin, login, logout, adminUser }}>
+    <AuthContext.Provider value={authState}>
       {children}
     </AuthContext.Provider>
   )
@@ -66,7 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext)
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAuth must be used within an AuthProvider')
   }
   return context
