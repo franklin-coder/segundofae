@@ -1,122 +1,82 @@
 
-"use client"
-
-import { motion } from 'framer-motion'
-import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 
-const CategoryShowcase = () => {
-  const categories = [
-    {
-      id: 'necklaces',
-      name: 'Necklaces',
-      description: 'Statement pieces and delicate chains',
-      image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80',
-      href: '/products/necklaces',
-      color: 'from-[#0A8E81] to-[#087267]'
-    },
-    {
-      id: 'earrings',
-      name: 'Earrings',
-      description: 'Elegant drops and modern hoops',
-      image: 'https://i.etsystatic.com/5313580/r/il/a580ee/2331209321/il_570xN.2331209321_e2gx.jpg',
-      href: '/products/earrings',
-      color: 'from-[#AEBBB2] to-[#8B9C8F]'
-    },
-    {
-      id: 'bracelets',
-      name: 'Bracelets',
-      description: 'Layering essentials and statement cuffs',
-      image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80',
-      href: '/products/bracelets',
-      color: 'from-[#0A8E81] to-[#33C3B5]'
-    },
-    {
-      id: 'and-more',
-      name: 'And More',
-      description: 'Discover other unique pieces',
-      image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80',
-      href: '/products/and-more',
-      color: 'from-[#AEBBB2] to-[#C1CFC5]'
-    }
-  ]
+const categories = [
+  {
+    name: 'Earrings',
+    slug: 'earrings',
+    description: 'Elegant drops and modern hoops crafted with intricate techniques.',
+    image: '/images/categories/earrings.jpg',
+    subcategories: ['Crochet', 'Beaded', 'Resin']
+  },
+  {
+    name: 'Necklaces',
+    slug: 'necklaces',
+    description: 'Statement pieces and delicate chains that complement any style.',
+    image: '/images/categories/necklaces.jpg',
+    subcategories: ['Crochet', 'Beaded']
+  },
+  {
+    name: 'Bracelets',
+    slug: 'bracelets',
+    description: 'Layering essentials and statement cuffs made with love.',
+    image: '/images/categories/bracelets.jpg',
+    subcategories: ['Beaded', 'Crochet']
+  }
+]
 
+export default function CategoryShowcase() {
   return (
-    <section id="explore-collections" className="py-20" style={{ backgroundColor: '#FAF5EF' }}>
-      <div className="container">
-        <motion.div 
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: '#000000' }}>
-            Explore Our Collections
+    <section className="py-16 lg:py-24" style={{ backgroundColor: '#FAF5EF' }}>
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-4 text-gray-900">
+            Shop by Category
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            From finely detailed crochet and beaded jewelry to thoughtfully crafted resin pieces, plush creations, and everyday accessories, each item is designed with care and attention to detail. Every piece is unique, reflecting a dedication to craftsmanship and a love for thoughtful design. Our collection offers timeless elegance with a subtle, imaginative touch, for those who appreciate quality, individuality, and beauty in the objects they surround themselves with.
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Discover our carefully curated collections, each piece handcrafted with attention to detail and artistic flair.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.map((category, index) => (
-            <motion.div
-              key={category.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ 
-                duration: 0.6, 
-                delay: index * 0.1,
-                ease: "easeOut" 
-              }}
-            >
-              <Link href={category.href}>
-                <div className="group relative overflow-hidden rounded-xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 hover-lift">
-                  {/* Image Container */}
-                  <div className="relative aspect-[4/5] overflow-hidden">
-                    <Image
-                      src={category.image}
-                      alt={category.name}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    />
-                    
-                    {/* Gradient Overlay */}
-                    <div className={`absolute inset-0 bg-gradient-to-t ${category.color} opacity-60 group-hover:opacity-70 transition-opacity duration-300`} />
-                    
-                    {/* Content Overlay */}
-                    <div className="absolute inset-0 flex flex-col justify-end p-6" style={{ color: '#FAF5EF' }}>
-                      <h3 className="text-2xl font-bold mb-2 group-hover:scale-105 transition-transform duration-300">
-                        {category.name}
-                      </h3>
-                      <p className="text-sm opacity-90 mb-4">
-                        {category.description}
-                      </p>
-                      
-                      <Button 
-                        variant="secondary"
-                        className="w-fit bg-white/20 hover:bg-white/30 border-white/30 hover:border-white/50 transition-all duration-300"
-                        style={{ color: '#FAF5EF' }}
-                        size="sm"
-                      >
-                        Shop Now
-                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
-                      </Button>
-                    </div>
-                  </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {categories.map((category) => (
+            <div key={category.slug} className="group bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
+              <div className="aspect-[4/3] relative overflow-hidden bg-gray-100">
+                <div className="w-full h-full flex items-center justify-center text-gray-400">
+                  {category.name} Collection
                 </div>
-              </Link>
-            </motion.div>
+              </div>
+              
+              <div className="p-6 space-y-4">
+                <h3 className="text-2xl font-bold text-gray-900">{category.name}</h3>
+                <p className="text-gray-600">{category.description}</p>
+                
+                <div className="space-y-3">
+                  <div className="flex flex-wrap gap-2">
+                    {category.subcategories.map((subcategory) => (
+                      <Link
+                        key={subcategory}
+                        href={`/products/${category.slug}/${subcategory.toLowerCase()}`}
+                        className="text-sm text-gray-500 hover:text-gray-700 transition-colors border-b border-transparent hover:border-gray-300"
+                      >
+                        {subcategory} {category.name}
+                      </Link>
+                    ))}
+                  </div>
+                  
+                  <Button asChild className="w-full">
+                    <Link href={`/products/${category.slug}`}>
+                      Shop All {category.name}
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </div>
     </section>
   )
 }
-
-export default CategoryShowcase

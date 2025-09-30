@@ -11,10 +11,11 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const category = searchParams.get('category')
+    const subcategory = searchParams.get('subcategory')
     const featured = searchParams.get('featured')
     const limit = searchParams.get('limit')
 
-    console.log(`[API:${requestId}] 🚀 Starting request - category: ${category}, featured: ${featured}, limit: ${limit}`)
+    console.log(`[API:${requestId}] 🚀 Starting request - category: ${category}, subcategory: ${subcategory}, featured: ${featured}, limit: ${limit}`)
 
     // ✅ Validate database connection first
     try {
@@ -47,6 +48,11 @@ export async function GET(request: NextRequest) {
       if (!validCategories.includes(mappedCategory)) {
         console.warn(`[API:${requestId}] ⚠️ Invalid category '${mappedCategory}', proceeding anyway`)
       }
+    }
+
+    if (subcategory && subcategory !== 'all') {
+      where.subcategory = subcategory.toLowerCase()
+      console.log(`[API:${requestId}] 🏷️ Filtering by subcategory: ${subcategory}`)
     }
 
     if (featured === 'true') {
@@ -104,6 +110,7 @@ export async function GET(request: NextRequest) {
       total: products.length,
       query: { 
         category, 
+        subcategory,
         featured, 
         limit, 
         mappedCategory: where.category,
