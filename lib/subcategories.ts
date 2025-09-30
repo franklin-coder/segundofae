@@ -122,3 +122,10 @@ export function getSubcategoryName(category: string, subcategory: string): strin
   
   return subcategory
 }
+
+// Función para obtener subcategorías de una categoría (nombres únicamente)
+// Esta función es requerida por el componente add-product-modal.tsx
+export function getSubcategoriesForCategory(category: string): string[] {
+  const subcategories = getSubcategories(category)
+  return subcategories.map(sub => sub.name)
+}
