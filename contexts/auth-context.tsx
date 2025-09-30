@@ -6,6 +6,7 @@ import { createContext, useContext, ReactNode } from 'react'
 interface AuthState {
   isAuthenticated: boolean
   user: null
+  isAdmin: boolean
 }
 
 const AuthContext = createContext<AuthState | null>(null)
@@ -13,7 +14,8 @@ const AuthContext = createContext<AuthState | null>(null)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const authState: AuthState = {
     isAuthenticated: false,
-    user: null
+    user: null,
+    isAdmin: false
   }
 
   return (
