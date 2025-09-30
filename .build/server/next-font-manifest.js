@@ -1,1 +1,1 @@
-self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{"/home/ubuntu/github_repos/segundofae/app/layout":["static/media/49c73d5444001430-s.p.woff2","static/media/6b9ad05d78648d38-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}';
+self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{"/home/ubuntu/github_repos/segundofae/app/layout":["static/media/49c73d5444001430-s.p.woff2","static/media/6b9ad05d78648d38-s.p.woff2","static/media/e4af272ccee01ff0-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}';

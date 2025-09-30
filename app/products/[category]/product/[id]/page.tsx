@@ -49,7 +49,7 @@ async function getProduct(id: string, category?: string) {
       },
       take: 4,
       orderBy: {
-        createdAt: 'desc'
+        created_at: 'desc'
       }
     })
 
