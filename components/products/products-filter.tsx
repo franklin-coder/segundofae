@@ -26,7 +26,7 @@ const ProductsFilter = ({ currentCategory }: ProductsFilterProps) => {
     { id: 'necklaces', name: 'Necklaces', count: 2 },
     { id: 'earrings', name: 'Earrings', count: 2 },
     { id: 'bracelets', name: 'Bracelets', count: 2 },
-    { id: 'anklets', name: 'Anklets', count: 2 }
+    { id: 'and-more', name: 'And More', count: 2 }
   ]
 
 

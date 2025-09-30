@@ -1,85 +1,52 @@
+// Tipos básicos para el e-commerce
 
-// Product Types
 export interface Product {
-  id: string
+  id: string | number
   name: string
+  description?: string
   price: number
-  originalPrice?: number
-  description: string
-  longDescription?: string
-  category: 'necklaces' | 'earrings' | 'bracelets' | 'anklets'
-  images: string[]
-  featured: boolean
-  inStock: boolean
-  materials?: string[]
-  dimensions?: string
-  care_instructions?: string
-  created_at: string
-  updated_at: string
+  image?: string
+  images?: string[]
+  category: string
+  subcategory?: string
+  in_stock?: boolean
+  featured?: boolean
+  created_at?: string
+  updated_at?: string
 }
 
-export interface ProductCategory {
+export interface Category {
   id: string
   name: string
-  slug: string
-  description: string
-  image: string
-  productCount: number
+  description?: string
+  image?: string
+  href: string
+  color?: string
 }
 
-// Cart Types
-export interface CartItem {
+export interface Subcategory {
   id: string
   name: string
-  price: number
-  image: string
-  quantity: number
+  description: string
+  apiValue: string
   category: string
 }
 
-// Order Types
-export interface Order {
-  id: string
-  customer_email: string
-  customer_name: string
-  customer_address: string
-  items: CartItem[]
+// Tipos para filtros
+export interface ProductFilters {
+  categories?: string[]
+  price_min?: number
+  price_max?: number
+  in_stock?: boolean
+  featured?: boolean
+  subcategory?: string
+}
+
+// Tipos para respuestas de API
+export interface ProductsResponse {
+  products: Product[]
   total: number
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
-  created_at: string
-  updated_at: string
-}
-
-// Contact Form Types
-export interface ContactForm {
-  name: string
-  email: string
-  subject: string
-  message: string
-}
-
-export interface ContactSubmission {
-  id: string
-  name: string
-  email: string
-  subject: string
-  message: string
-  status: 'new' | 'read' | 'replied'
-  created_at: string
-}
-
-// API Response Types
-export interface ApiResponse<T> {
-  data: T
-  success: boolean
-  message?: string
-  error?: string
-}
-
-export interface PaginatedResponse<T> {
-  data: T[]
-  page: number
-  limit: number
-  total: number
-  totalPages: number
+  page?: number
+  limit?: number
+  query?: any
 }
