@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import toast from 'react-hot-toast'
+import { getSubcategoriesForCategory } from '@/lib/subcategories'
 
 interface AddProductModalProps {
   isOpen: boolean
@@ -33,6 +34,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
     description: '',
     longDescription: '',
     category: 'necklaces',
+    subcategory: '', 
     dimensions: '',
     featured: false,
     inStock: true
@@ -45,6 +47,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
   const [isDragOver, setIsDragOver] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState<FormErrors>({})
+  const [subcategory, setSubcategory] = useState('')
 
   const categories = [
     { value: 'necklaces', label: 'Necklaces' },
@@ -242,6 +245,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
       description: '',
       longDescription: '',
       category: 'necklaces',
+      subcategory: '', // ← AGREGAR ESTA LÍNEA
       dimensions: '',
       featured: false,
       inStock: true
@@ -325,6 +329,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
         description: formData.description.trim(),
         longDescription: formData.longDescription.trim() || formData.description.trim(),
         category: formData.category,
+        subcategory: subcategory || null, // ← AGREGAR ESTA LÍNEA
         images: finalImages,
         featured: formData.featured,
         inStock: formData.inStock,
@@ -509,6 +514,27 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                   </select>
                   {errors.category && <p className="text-sm text-red-600 mt-1">{errors.category}</p>}
                 </div>
+
+                {/* 🎯 AQUÍ VA TU BLOQUE DE SUBCATEGORY */}
+                {formData.category && getSubcategoriesForCategory(formData.category).length > 0 && (
+                  <div>
+                    <Label htmlFor="subcategory">Subcategory *</Label>
+                    <select
+                      id="subcategory"
+                      value={formData.subcategory || ''}
+                      onChange={(e) => handleInputChange('subcategory', e.target.value)}
+                      className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      required
+                    >
+                      <option value="">Select subcategory</option>
+                      {getSubcategoriesForCategory(formData.category).map((sub) => (
+                        <option key={sub} value={sub.toLowerCase()}>
+                          {sub}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
 
                 {/* Descriptions */}
                 <div>

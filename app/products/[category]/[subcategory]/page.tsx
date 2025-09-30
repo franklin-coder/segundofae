@@ -6,52 +6,66 @@ import ProductsGrid from '@/components/products/products-grid'
 import SubcategoryFilter from '@/components/products/subcategory-filter'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb'
 
-interface CategoryPageProps {
+interface SubcategoryPageProps {
   params: {
     category: string
+    subcategory: string
   }
 }
 
 const categoryInfo = {
   necklaces: {
     title: 'Necklaces',
-    description: 'Statement pieces and delicate chains that complement any style. From bohemian macramé designs to elegant everyday wear.',
+    subcategories: ['crochet', 'beaded']
   },
   earrings: {
     title: 'Earrings',
-    description: 'Elegant drops and modern hoops crafted with intricate macramé techniques. Perfect for adding a touch of artisanal beauty to your look.',
+    subcategories: ['crochet', 'beaded', 'resin']
   },
   bracelets: {
     title: 'Bracelets',
-    description: 'Layering essentials and statement cuffs made with love. Mix and match our friendship bracelets or wear a single statement piece.',
-  },
-  'and-more': {
-    title: 'And More',
-    description: 'Discover our unique collection of anklets, keychains, and other handcrafted accessories. Perfect finishing touches for your bohemian style.',
+    subcategories: ['beaded', 'crochet']
   }
 }
 
-export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  const { category } = params
+const subcategoryInfo = {
+  crochet: {
+    title: 'Crochet',
+    description: 'Handcrafted with intricate crochet techniques, these pieces showcase the beauty of fiber art in jewelry form.'
+  },
+  beaded: {
+    title: 'Beaded',
+    description: 'Carefully selected beads woven together to create stunning, colorful pieces that catch the light beautifully.'
+  },
+  resin: {
+    title: 'Resin',
+    description: 'Modern resin designs that capture nature and color in unique, lightweight pieces perfect for everyday wear.'
+  }
+}
+
+export async function generateMetadata({ params }: SubcategoryPageProps): Promise<Metadata> {
+  const { category, subcategory } = params
   const categoryData = categoryInfo[category as keyof typeof categoryInfo]
+  const subcategoryData = subcategoryInfo[subcategory as keyof typeof subcategoryInfo]
   
-  if (!categoryData) {
+  if (!categoryData || !subcategoryData || !categoryData.subcategories.includes(subcategory)) {
     return {
-      title: 'Category Not Found - FaeLight Crafts'
+      title: 'Page Not Found - FaeLight Crafts'
     }
   }
 
   return {
-    title: `${categoryData.title} - FaeLight Crafts | Handmade Jewelry`,
-    description: categoryData.description,
+    title: `${subcategoryData.title} ${categoryData.title} - FaeLight Crafts | Handmade Jewelry`,
+    description: `${subcategoryData.description} Browse our collection of ${subcategory} ${category}.`,
   }
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
-  const { category } = params
+export default function SubcategoryPage({ params }: SubcategoryPageProps) {
+  const { category, subcategory } = params
   const categoryData = categoryInfo[category as keyof typeof categoryInfo]
+  const subcategoryData = subcategoryInfo[subcategory as keyof typeof subcategoryInfo]
   
-  if (!categoryData) {
+  if (!categoryData || !subcategoryData || !categoryData.subcategories.includes(subcategory)) {
     notFound()
   }
 
@@ -70,18 +84,22 @@ export default function CategoryPage({ params }: CategoryPageProps) {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>{categoryData.title}</BreadcrumbPage>
+              <BreadcrumbLink href={`/products/${category}`}>{categoryData.title}</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{subcategoryData.title}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
 
-        {/* Category Header */}
+        {/* Page Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl lg:text-5xl font-bold mb-4" style={{ color: '#000000' }}>
-            {categoryData.title}
+            {subcategoryData.title} {categoryData.title}
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {categoryData.description}
+            {subcategoryData.description}
           </p>
         </div>
 
@@ -89,7 +107,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
           {/* Filters Sidebar */}
           <aside className="lg:w-64 flex-shrink-0">
             <Suspense fallback={<div className="h-96 bg-white rounded-lg animate-pulse" />}>
-              <SubcategoryFilter category={category} />
+              <SubcategoryFilter category={category} currentSubcategory={subcategory} />
             </Suspense>
           </aside>
 
@@ -102,7 +120,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                 ))}
               </div>
             }>
-              <ProductsGrid category={category} />
+              <ProductsGrid category={category} subcategory={subcategory} />
             </Suspense>
           </main>
         </div>
