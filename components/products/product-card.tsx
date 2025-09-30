@@ -22,7 +22,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <Link href={`/products/${product.category}/${product.id}`}>
+    <Link href={`/products/${product.category}/product/${product.id}`}>
       <div className="group bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
         {/* Image */}
         <div className="aspect-square relative overflow-hidden bg-gray-100">

@@ -1,4 +1,4 @@
-// app/products/[category]/[id]/page.tsx
+// app/products/[category]/product/[id]/page.tsx
 import { Suspense } from 'react'
 import { prisma } from '@/lib/prisma'
 import { Metadata } from 'next'
