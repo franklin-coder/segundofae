@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'About the Crafter - FaeLight Crafts | Julia\'s Story & Creative Journey',
   description: 'Meet Julia, the crafter behind FaeLight Crafts. Discover her story of handcrafted treasures made with love, from crochet creatures to sparkling resin pieces and playful bookmarks.',
   openGraph: {
-    title: 'About the Crafter - Julia & FaeLight Crafts',
+    title: 'About the Crafter',
     description: 'Meet Julia and discover her story of handcrafted magic, made with love and a cup of coffee.',
   }
 }
