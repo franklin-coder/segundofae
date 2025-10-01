@@ -92,7 +92,7 @@ const AboutContent = () => {
           </h2> */}
           
           <p className="text-lg text-gray-600 leading-relaxed">
-            From crochet creatures to sparkling resin pieces and playful bookmarks, I make each item by hand with love (and often a cup of coffee by my side). Your support truly means the world—it lets me keep doing what I love and sprinkle a bit of magic into everyday life. Thank you for being here!.
+            From crochet creatures to sparkling resin pieces and playful bookmarks, I make each item by hand with love (and often a cup of coffee by my side). Your support truly means the world—it lets me keep doing what I love and sprinkle a bit of magic into everyday life.
           </p>
           
           <p className="text-lg text-gray-600 leading-relaxed">
@@ -128,7 +128,7 @@ const AboutContent = () => {
         >
           <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
             <Image
-              src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80"
+              src="https://i.postimg.cc/SsjDmvmc/julia.png"
               alt="Julia creating handmade crafts with love"
               fill
               className="object-cover"
