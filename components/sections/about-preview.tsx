@@ -23,7 +23,7 @@ const AboutPreview = () => {
           >
             <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="https://i.etsystatic.com/58229756/r/il/f03e2c/6844052318/il_794xN.6844052318_d3ni.jpg"
+                src="https://i.postimg.cc/yNnYg9xz/Dise-o-sin-t-tulo.png"
                 alt="FaeLight Crafts artisan at work"
                 fill
                 className="object-cover"

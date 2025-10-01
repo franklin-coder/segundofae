@@ -127,7 +127,7 @@ const ProductCard = ({ product, onProductDeleted }: ProductCardProps) => {
             priority={false}
           />
 
-          {/* Overlay Actions */}
+          {/* Overlay Actions 
           <div className={`absolute inset-0 bg-black/20 flex items-center justify-center space-x-2 transition-all duration-300 ${
             isHovered ? 'opacity-100' : 'opacity-0'
           }`}>
@@ -147,7 +147,7 @@ const ProductCard = ({ product, onProductDeleted }: ProductCardProps) => {
             >
               <Heart className="h-4 w-4" />
             </Button>
-          </div>
+          </div>*/}
 
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-col space-y-1">
