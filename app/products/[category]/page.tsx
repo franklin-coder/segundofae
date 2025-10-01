@@ -19,7 +19,7 @@ const categoryInfo = {
   },
   earrings: {
     title: 'Earrings',
-    description: 'Elegant drops and modern hoops crafted with intricate macramé techniques. Perfect for adding a touch of artisanal beauty to your look.',
+    description: 'Lightweight yet full of presence, our earrings combine intricate detail with wearable comfort. From gothic-inspired crochet windows to designs that echo the grace of elves, every pair is crafted to bring a spark of wonder to your style. Perfect for those who seek accessories that stand out while still feeling effortless.',
   },
   bracelets: {
     title: 'Bracelets',
