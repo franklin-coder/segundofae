@@ -11,45 +11,47 @@ const AboutContent = () => {
     {
       icon: Sparkles,
       title: "Imagination as Craft",
-      description: "Every piece begins with a spark of imagination, transforming whimsical ideas into tangible treasures that bring joy and wonder to everyday life."
+      description: "Every creation is born from a story. Inspired by myth and fantasy, each piece carries a sense of artistry that invites you to step beyond the ordinary.."
     },
     {
       icon: Heart,
       title: "Authenticity in Craftsmanship",
-      description: "Each creation is genuinely handmade with love, reflecting the authentic spirit and personal touch that only comes from true artisan craftsmanship."
+      description: "Handmade with care, every item is unique. Patience, detail, and dedication are woven into each creation, offering something truly one of a kind."
+
     },
     {
       icon: Users,
       title: "A World of Fantasy, Within Reach",
-      description: "We believe magic should be accessible to everyone, creating enchanting pieces that bring a touch of fantasy into your daily adventures."
+      description: "Faelight Crafts exists to bring subtle enchantment into daily life — treasures that awaken wonder and carry the quiet elegance of a high-fantasy realm."
+
     },
     {
       icon: Leaf,
       title: "Respect for Materials, Vision for Growth",
-      description: "We honor our materials and environment while continuously growing and evolving our craft with sustainable practices and mindful creation."
+      description: "Thoughtful choices guide the way we source and create. As Faelight grows, so will our commitment to sustainable practices, ensuring beauty is crafted with integrity."
     }
   ]
 
   const timeline = [
     {
-      year: "The Spark",
-      title: "A Creative Beginning",
-      description: "What started as a little hobby quickly became something magical. Julia discovered her passion for creating handmade treasures, each piece sparking joy and imagination."
+      year: "A Creative Beginning",
+      title: "The Spark",
+      description: "It all began with a love for magical stories and the joy of crafting with my own hands. From crochet creatures to tiny handmade treasures, each piece carried a bit of my love fot those things."
     },
     {
-      year: "The Craft Grows",
-      title: "Expanding Horizons",
-      description: "From simple beginnings, the craft evolved to include crochet creatures, sparkling resin pieces, and playful bookmarks - each creation made with love and a cup of coffee nearby."
+      year: "Expanding Horizons",
+      title: "The Craft Grows",
+      description: "Soon, what began as a pastime turned into endless hours of creativity — making jewelry, clothes, and enchanted decorations. Each creation carried its own story, and little by little, Faelight Crafts took shape."
     },
     {
-      year: "Sharing the Magic",
-      title: "Building Community",
-      description: "Julia began sharing her creations with others, discovering the joy of bringing smiles and wonder to people's lives through handcrafted magic."
+      year: "Building Community ",
+      title: "Sharing the Magic",
+      description: "Markets, fairs, and social media became the bridges to share this magic. Meeting people who connected with my work showed me that this dream had a place in the world."
     },
     {
-      year: "Faelight Today",
-      title: "A Thriving Dream",
-      description: "Today, Faelight Crafts continues to grow, spreading joy and imagination through every handmade piece, supported by a wonderful community of magic-lovers."
+      year: "A Thriving Dream",
+      title: "Faelight Today",
+      description: "Now, Faelight Crafts is more than just a shop. It is a home for handmade wonders inspired by fantasy — a place where faes, dragons, and dreamers can all find a treasure made with love."
     }
   ]
 
@@ -64,10 +66,10 @@ const AboutContent = () => {
       >
         <h1 className="text-4xl lg:text-6xl font-bold mb-6" style={{ color: '#000000' }}>
           About the Crafter
-          <span className="block text-[#0A8E81]">Julia & Faelight Crafts</span>
+          <span className="block text-[#0A8E81]"> </span>
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-          Hi, I'm Julia—the maker behind Faelight Crafts. I've always loved creating, and what started as a little hobby has become my favorite way of sharing joy and imagination with others.
+          Hi, I’m Julia—the maker behind Faelight Crafts. I’ve always loved creating, and what started as a little hobby has become my favorite way of sharing joy and imagination with others.
         </p>
       </motion.div>
 
@@ -85,16 +87,16 @@ const AboutContent = () => {
             <span className="text-lg font-medium text-[#0A8E81]">Made with Love & Coffee</span>
           </div>
           
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
+          {/* <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
             Handcrafted Magic, One Piece at a Time
-          </h2>
+          </h2> */}
           
           <p className="text-lg text-gray-600 leading-relaxed">
-            From crochet creatures to sparkling resin pieces and playful bookmarks, I make each item by hand with love (and often a cup of coffee by my side). Your support truly means the world—it lets me keep doing what I love and sprinkle a bit of magic into everyday life.
+            From crochet creatures to sparkling resin pieces and playful bookmarks, I make each item by hand with love (and often a cup of coffee by my side). Your support truly means the world—it lets me keep doing what I love and sprinkle a bit of magic into everyday life. Thank you for being here!.
           </p>
           
           <p className="text-lg text-gray-600 leading-relaxed">
-            Thank you for being here! Every piece I create carries a little bit of joy and imagination, hoping to bring a smile to your day and add some wonder to your world.
+            Thank you for being here!.
           </p>
 
           <div className="bg-gradient-to-r from-[#0A8E81]/10 to-purple-100 rounded-lg p-6 shadow-sm">
@@ -156,10 +158,10 @@ const AboutContent = () => {
           <h2 className="text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
             Our Core Values
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          {/* <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             These fundamental principles guide every creation and shape the magical experience 
             we strive to bring to each and every piece.
-          </p>
+          </p> */}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
