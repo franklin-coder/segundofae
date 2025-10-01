@@ -15,7 +15,7 @@ interface CategoryPageProps {
 const categoryInfo = {
   necklaces: {
     title: 'Necklaces',
-    description: 'Statement pieces and delicate chains that complement any style. From bohemian macramé designs to elegant everyday wear.',
+    description: 'Handmade with care and imagination, our necklaces are designed to be more than simple adornments. Each piece carries its own story, drawing inspiration from fantasy, nature, and timeless elegance. Whether you’re looking for a statement piece to wear at a special event or a subtle touch of everyday magic, these creations are meant to accompany you wherever your journey takes you.',
   },
   earrings: {
     title: 'Earrings',
@@ -23,11 +23,11 @@ const categoryInfo = {
   },
   bracelets: {
     title: 'Bracelets',
-    description: 'Layering essentials and statement cuffs made with love. Mix and match our friendship bracelets or wear a single statement piece.',
+    description: 'Each bracelet is a small treasure, carefully made to blend beauty and meaning. Using a mix of textures, colors, and patterns, these pieces are created to feel personal — something you can wear daily while still carrying a hint of the extraordinary. They are versatile, comfortable, and always unique.',
   },
   'and-more': {
     title: 'And More',
-    description: 'Discover our unique collection of anklets, keychains, and other handcrafted accessories. Perfect finishing touches for your bohemian style.',
+    description: 'This category holds the creations that can’t be contained by one definition — small enchanted creatures, handcrafted , fantasy bookmarks, and decorative pieces that bring a touch of magic into your home. Each item is a reminder that imagination has no limits, and sometimes the most unexpected finds become the most cherished.',
   }
 }
 
