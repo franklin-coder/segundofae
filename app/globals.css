@@ -35,9 +35,15 @@ h1, h2, h3, h4, label, span, button, a, ::placeholder, select {
   line-height: 1.2;
 }
 
+.font-medium, .text-gray-600, .newFont {
+ font-family: var(--font-della-respira), 'Della Respira', serif;
+
+}
+
+
 
 p, h5, h6  {
-  font-family: 'Della Respira', serif;
+   font-family: var(--font-della-respira), 'Della Respira', serif;
 }
 
 .font-heading {

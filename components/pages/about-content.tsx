@@ -236,7 +236,7 @@ const AboutContent = () => {
 
       {/* Magic & Community Section */}
       <motion.div 
-        className="bg-gradient-to-r from-[#0A8E81] to-purple-600 rounded-2xl p-8 lg:p-12 text-white"
+        className="newFont bg-gradient-to-r from-[#0A8E81] to-purple-600 rounded-2xl p-8 lg:p-12 text-white"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -261,7 +261,7 @@ const AboutContent = () => {
             <div className="inline-block bg-white/20 rounded-full p-8 mb-4">
               <Sparkles className="h-16 w-16" />
             </div>
-            <div className="text-2xl font-bold">Handmade with Love</div>
+            <div className="newFont text-2xl font-bold">Handmade with Love</div>
             <div className="opacity-90">& a Cup of Coffee</div>
           </div>
         </div>
