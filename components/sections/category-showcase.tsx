@@ -1,63 +1,79 @@
+"use client";
 
-"use client"
-
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const CategoryShowcase = () => {
   const categories = [
     {
-      id: 'necklaces',
-      name: 'Necklaces',
-      description: 'Statement pieces and delicate chains',
-      image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80',
-      href: '/products/necklaces',
-      color: 'from-[#0A8E81] to-[#087267]'
+      id: "necklaces",
+      name: "Necklaces",
+      description: "Statement pieces and delicate chains",
+      image:
+        "/images/julia_necklaces.png",
+      href: "/products/necklaces",
+      color: "from-[#0A8E81] to-[#087267]",
     },
     {
-      id: 'earrings',
-      name: 'Earrings',
-      description: 'Elegant drops and modern hoops',
-      image: 'https://i.etsystatic.com/5313580/r/il/a580ee/2331209321/il_570xN.2331209321_e2gx.jpg',
-      href: '/products/earrings',
-      color: 'from-[#AEBBB2] to-[#8B9C8F]'
+      id: "earrings",
+      name: "Earrings",
+      description: "Elegant drops and modern hoops",
+      image:
+        "/images/julia_earrings.png",
+      href: "/products/earrings",
+      color: "from-[#AEBBB2] to-[#8B9C8F]",
     },
     {
-      id: 'bracelets',
-      name: 'Bracelets',
-      description: 'Layering essentials and statement cuffs',
-      image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80',
-      href: '/products/bracelets',
-      color: 'from-[#0A8E81] to-[#33C3B5]'
+      id: "bracelets",
+      name: "Bracelets",
+      description: "Layering essentials and statement cuffs",
+      image:
+        "/images/julia_bracelet.png",
+      href: "/products/bracelets",
+      color: "from-[#0A8E81] to-[#33C3B5]",
     },
     {
-      id: 'and-more',
-      name: 'And More',
-      description: 'Discover other unique pieces',
-      image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80',
-      href: '/products/and-more',
-      color: 'from-[#AEBBB2] to-[#C1CFC5]'
-    }
-  ]
+      id: "and-more",
+      name: "And More",
+      description: "Discover other unique pieces",
+      image: "/images/Book-and-Arrow-web.png", // <- tu imagen local
+      href: "/products/and-more",
+      color: "from-[#AEBBB2] to-[#C1CFC5]",
+    },
+  ];
 
   return (
-    <section id="explore-collections" className="py-20" style={{ backgroundColor: '#FAF5EF' }}>
+    <section
+      id="explore-collections"
+      className="py-20"
+      style={{ backgroundColor: "#FAF5EF" }}
+    >
       <div className="container">
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: '#000000' }}>
+          <h2
+            className="text-4xl lg:text-5xl font-bold mb-6"
+            style={{ color: "#000000" }}
+          >
             Explore Our Collections
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            From finely detailed crochet and beaded jewelry to thoughtfully crafted resin pieces, plush creations, and everyday accessories, each item is designed with care and attention to detail. Every piece is unique, reflecting a dedication to craftsmanship and a love for thoughtful design. Our collection offers timeless elegance with a subtle, imaginative touch, for those who appreciate quality, individuality, and beauty in the objects they surround themselves with.
+            From finely detailed crochet and beaded jewelry to thoughtfully
+            crafted resin pieces, plush creations, and everyday accessories,
+            each item is designed with care and attention to detail. Every piece
+            is unique, reflecting a dedication to craftsmanship and a love for
+            thoughtful design. Our collection offers timeless elegance with a
+            subtle, imaginative touch, for those who appreciate quality,
+            individuality, and beauty in the objects they surround themselves
+            with.
           </p>
         </motion.div>
 
@@ -68,10 +84,10 @@ const CategoryShowcase = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ 
-                duration: 0.6, 
+              transition={{
+                duration: 0.6,
                 delay: index * 0.1,
-                ease: "easeOut" 
+                ease: "easeOut",
               }}
             >
               <Link href={category.href}>
@@ -85,23 +101,28 @@ const CategoryShowcase = () => {
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     />
-                    
+
                     {/* Gradient Overlay */}
-                    <div className={`absolute inset-0 bg-gradient-to-t ${category.color} opacity-60 group-hover:opacity-70 transition-opacity duration-300`} />
-                    
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-t ${category.color} opacity-60 group-hover:opacity-70 transition-opacity duration-300`}
+                    />
+
                     {/* Content Overlay */}
-                    <div className="absolute inset-0 flex flex-col justify-end p-6" style={{ color: '#FAF5EF' }}>
+                    <div
+                      className="absolute inset-0 flex flex-col justify-end p-6"
+                      style={{ color: "#FAF5EF" }}
+                    >
                       <h3 className="text-2xl font-bold mb-2 group-hover:scale-105 transition-transform duration-300">
                         {category.name}
                       </h3>
                       <p className="text-sm opacity-90 mb-4">
                         {category.description}
                       </p>
-                      
-                      <Button 
+
+                      <Button
                         variant="secondary"
                         className="w-fit bg-white/20 hover:bg-white/30 border-white/30 hover:border-white/50 transition-all duration-300"
-                        style={{ color: '#FAF5EF' }}
+                        style={{ color: "#FAF5EF" }}
                         size="sm"
                       >
                         Shop Now
@@ -116,7 +137,7 @@ const CategoryShowcase = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default CategoryShowcase
+export default CategoryShowcase;
