@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Checkbox } from '@/components/ui/checkbox'
 import toast from 'react-hot-toast'
+import imageCompression from 'browser-image-compression'
 
 interface AddProductModalProps {
   isOpen: boolean
@@ -44,6 +45,8 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
   const [imageInputMode, setImageInputMode] = useState<'url' | 'upload'>('url')
   const [isDragOver, setIsDragOver] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [isCompressing, setIsCompressing] = useState(false)
+  const [compressionProgress, setCompressionProgress] = useState(0)
   const [errors, setErrors] = useState<FormErrors>({})
 
   const categories = [
@@ -64,8 +67,38 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
     }
   }, [imagePreviews])
 
-  // Handle file upload
-  const handleFileUpload = useCallback((files: FileList | File[]) => {
+  // Compress image file
+  const compressImage = async (file: File): Promise<File> => {
+    // Configuration for image compression
+    const options = {
+      maxSizeMB: 1, // Maximum file size in MB
+      maxWidthOrHeight: 1920, // Maximum width or height
+      useWebWorker: true, // Use web worker for better performance
+      fileType: file.type as 'image/jpeg' | 'image/png' | 'image/webp', // Preserve original type
+      initialQuality: 0.85, // Initial quality (0-1)
+    }
+
+    try {
+      // Only compress if file is larger than 1MB
+      if (file.size > 1024 * 1024) {
+        console.log(`[IMAGE_COMPRESSION] Compressing ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`)
+        const compressedFile = await imageCompression(file, options)
+        console.log(`[IMAGE_COMPRESSION] Compressed to ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`)
+        return compressedFile
+      }
+      
+      // Return original file if it's already small enough
+      console.log(`[IMAGE_COMPRESSION] File ${file.name} is already optimized (${(file.size / 1024 / 1024).toFixed(2)}MB)`)
+      return file
+    } catch (error) {
+      console.error('[IMAGE_COMPRESSION] Error compressing image:', error)
+      toast.error(`Failed to compress ${file.name}, using original`)
+      return file
+    }
+  }
+
+  // Handle file upload with compression
+  const handleFileUpload = useCallback(async (files: FileList | File[]) => {
     const fileArray = Array.from(files)
     const imageFiles = fileArray.filter(file => file.type.startsWith('image/'))
     
@@ -79,26 +112,66 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
       return
     }
 
-    // Create previews
-    const newPreviews: string[] = []
-    imageFiles.forEach(file => {
-      const preview = URL.createObjectURL(file)
-      newPreviews.push(preview)
-    })
-
-    // Clean up old previews
-    imagePreviews.forEach(preview => {
-      if (preview.startsWith('blob:')) {
-        URL.revokeObjectURL(preview)
-      }
-    })
-
-    setImageFiles(imageFiles)
-    setImagePreviews(newPreviews)
+    setIsCompressing(true)
+    setCompressionProgress(0)
     
-    // Clear errors
-    if (errors.images) {
-      setErrors(prev => ({ ...prev, images: undefined }))
+    try {
+      // Compress all images
+      const compressedFiles: File[] = []
+      const newPreviews: string[] = []
+      
+      for (let i = 0; i < imageFiles.length; i++) {
+        const file = imageFiles[i]
+        
+        // Update progress
+        setCompressionProgress(Math.round(((i + 0.5) / imageFiles.length) * 100))
+        
+        // Compress the image
+        const compressedFile = await compressImage(file)
+        compressedFiles.push(compressedFile)
+        
+        // Create preview
+        const preview = URL.createObjectURL(compressedFile)
+        newPreviews.push(preview)
+        
+        // Update progress
+        setCompressionProgress(Math.round(((i + 1) / imageFiles.length) * 100))
+      }
+
+      // Clean up old previews
+      imagePreviews.forEach(preview => {
+        if (preview.startsWith('blob:')) {
+          URL.revokeObjectURL(preview)
+        }
+      })
+
+      setImageFiles(compressedFiles)
+      setImagePreviews(newPreviews)
+      
+      // Show success message
+      const totalOriginalSize = imageFiles.reduce((sum, file) => sum + file.size, 0)
+      const totalCompressedSize = compressedFiles.reduce((sum, file) => sum + file.size, 0)
+      const savedSize = totalOriginalSize - totalCompressedSize
+      
+      if (savedSize > 0) {
+        toast.success(
+          `${compressedFiles.length} image${compressedFiles.length > 1 ? 's' : ''} processed! ` +
+          `Saved ${(savedSize / 1024 / 1024).toFixed(2)}MB`
+        )
+      } else {
+        toast.success(`${compressedFiles.length} image${compressedFiles.length > 1 ? 's' : ''} ready to upload!`)
+      }
+      
+      // Clear errors
+      if (errors.images) {
+        setErrors(prev => ({ ...prev, images: undefined }))
+      }
+    } catch (error) {
+      console.error('[IMAGE_UPLOAD] Error processing images:', error)
+      toast.error('Failed to process some images')
+    } finally {
+      setIsCompressing(false)
+      setCompressionProgress(0)
     }
   }, [imagePreviews, errors.images])
 
@@ -404,7 +477,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
   }
 
   const handleClose = () => {
-    if (!isLoading) {
+    if (!isLoading && !isCompressing) {
       onClose()
       // Limpiar errores al cerrar
       setErrors({})
@@ -439,7 +512,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
               </div>
               <button
                 onClick={handleClose}
-                disabled={isLoading}
+                disabled={isLoading || isCompressing}
                 className="text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-50"
               >
                 <X className="h-5 w-5" />
@@ -547,7 +620,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                       variant={imageInputMode === 'url' ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => setImageInputMode('url')}
-                      disabled={isLoading}
+                      disabled={isLoading || isCompressing}
                       className="flex items-center gap-2"
                     >
                       <Link className="h-4 w-4" />
@@ -558,7 +631,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                       variant={imageInputMode === 'upload' ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => setImageInputMode('upload')}
-                      disabled={isLoading}
+                      disabled={isLoading || isCompressing}
                       className="flex items-center gap-2"
                     >
                       <Upload className="h-4 w-4" />
@@ -607,6 +680,24 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                   ) : (
                     /* File Upload Mode */
                     <div className="space-y-4">
+                      {/* Compression Progress */}
+                      {isCompressing && (
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-medium text-blue-900">
+                              Compressing images...
+                            </span>
+                            <span className="text-sm text-blue-700">{compressionProgress}%</span>
+                          </div>
+                          <div className="w-full bg-blue-200 rounded-full h-2">
+                            <div 
+                              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                              style={{ width: `${compressionProgress}%` }}
+                            />
+                          </div>
+                        </div>
+                      )}
+
                       {/* Drag & Drop Area */}
                       <div
                         onDragOver={handleDragOver}
@@ -620,8 +711,9 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                               ? 'border-red-300 bg-red-50' 
                               : 'border-gray-300 hover:border-gray-400'
                           }
+                          ${isCompressing ? 'opacity-50 pointer-events-none' : ''}
                         `}
-                        onClick={() => document.getElementById('file-input')?.click()}
+                        onClick={() => !isCompressing && document.getElementById('file-input')?.click()}
                       >
                         <input
                           id="file-input"
@@ -630,16 +722,16 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                           accept="image/*"
                           onChange={(e) => e.target.files && handleFileUpload(e.target.files)}
                           className="hidden"
-                          disabled={isLoading}
+                          disabled={isLoading || isCompressing}
                         />
                         <div className="flex flex-col items-center gap-2">
                           <ImageIcon className="h-12 w-12 text-gray-400" />
                           <div>
                             <p className="text-sm font-medium text-gray-900">
-                              {isDragOver ? 'Drop images here' : 'Click to upload or drag and drop'}
+                              {isDragOver ? 'Drop images here' : isCompressing ? 'Processing...' : 'Click to upload or drag and drop'}
                             </p>
                             <p className="text-xs text-gray-500 mt-1">
-                              PNG, JPG, GIF up to 10 images
+                              PNG, JPG, GIF up to 10 images (auto-compressed)
                             </p>
                           </div>
                         </div>
@@ -659,12 +751,15 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                                 type="button"
                                 onClick={() => removeUploadedImage(index)}
                                 className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                                disabled={isLoading}
+                                disabled={isLoading || isCompressing}
                               >
                                 <Trash2 className="h-3 w-3" />
                               </button>
-                              <div className="absolute bottom-1 left-1 bg-black/50 text-white text-xs px-1 rounded">
-                                {imageFiles[index]?.name.substring(0, 10)}...
+                              <div className="absolute bottom-1 left-1 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                                <div>{imageFiles[index]?.name.substring(0, 12)}...</div>
+                                <div className="text-[10px] text-gray-300">
+                                  {imageFiles[index] ? `${(imageFiles[index].size / 1024).toFixed(0)}KB` : ''}
+                                </div>
                               </div>
                             </div>
                           ))}
@@ -720,20 +815,25 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }: AddProductModalPro
                     type="button"
                     variant="outline"
                     onClick={handleClose}
-                    disabled={isLoading}
+                    disabled={isLoading || isCompressing}
                     className="flex-1"
                   >
                     Cancel
                   </Button>
                   <Button
                     type="submit"
-                    disabled={isLoading}
+                    disabled={isLoading || isCompressing}
                     className="flex-1 bg-[#0A8E81] hover:bg-[#087267]"
                   >
                     {isLoading ? (
                       <div className="flex items-center gap-2">
                         <Loader className="h-4 w-4 animate-spin" />
                         Adding Product...
+                      </div>
+                    ) : isCompressing ? (
+                      <div className="flex items-center gap-2">
+                        <Loader className="h-4 w-4 animate-spin" />
+                        Processing Images...
                       </div>
                     ) : (
                       <div className="flex items-center gap-2">
