@@ -13,7 +13,7 @@ const CategoryShowcase = () => {
       id: 'necklaces',
       name: 'Necklaces',
       description: 'Statement pieces and delicate chains',
-      image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80',
+      image: '/julia_necklaces.png',
       href: '/products/necklaces',
       color: 'from-[#0A8E81] to-[#087267]'
     },
@@ -21,7 +21,7 @@ const CategoryShowcase = () => {
       id: 'earrings',
       name: 'Earrings',
       description: 'Elegant drops and modern hoops',
-      image: 'https://i.etsystatic.com/5313580/r/il/a580ee/2331209321/il_570xN.2331209321_e2gx.jpg',
+      image: '/julia_earrings.png',
       href: '/products/earrings',
       color: 'from-[#AEBBB2] to-[#8B9C8F]'
     },
@@ -29,7 +29,7 @@ const CategoryShowcase = () => {
       id: 'bracelets',
       name: 'Bracelets',
       description: 'Layering essentials and statement cuffs',
-      image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80',
+      image: '/julia_bracelet.png',
       href: '/products/bracelets',
       color: 'from-[#0A8E81] to-[#33C3B5]'
     },
@@ -37,7 +37,7 @@ const CategoryShowcase = () => {
       id: 'and-more',
       name: 'And More',
       description: 'Discover other unique pieces',
-      image: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80',
+      image: '/Book-and-Arrow-web.png',
       href: '/products/and-more',
       color: 'from-[#AEBBB2] to-[#C1CFC5]'
     }
